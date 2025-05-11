@@ -1,0 +1,81 @@
+# FUCKCHAT 配置文件
+
+# 服务器配置
+server:
+  host: 0.0.0.0  # 服务监听地址，0.0.0.0表示所有网卡
+  port: 5000     # 服务监听端口
+  debug: false    # 调试模式
+  local_network:
+    enabled: true  # 是否启用局域网访问
+    domain: 192.168.250.172  # 局域网域名（如有）
+    broadcast: true  # 是否在局域网内广播服务
+
+# 应用配置
+app:
+  name: FUCKCHAT
+  secret_key: change_this_to_a_secure_random_string
+  max_content_length: 16777216  # 文件上传大小限制 (16MB)
+  allowed_file_extensions:  # 允许上传的文件类型
+    - jpg
+    - jpeg
+    - png
+    - gif
+    - mp3
+    - wav
+
+# 数据库配置
+database:
+  type: sqlite
+  path: fuckchat.db
+
+# 聊天配置
+chat:
+  max_message_length: 1000    # 最大消息长度
+  history_message_count: 100  # 历史消息加载数量
+  kunbi_redpacket:
+    min_amount: 1             # 最小红包金额
+    max_amount: 10000         # 最大红包金额
+    animation: true           # 是否启用红包动画效果
+
+# 用户配置
+user:
+  default_kunbi: 100          # 新用户默认坤币数量
+  avatar_path: src/images/avatars/  # 用户头像存储路径
+
+# 群组配置
+group:
+  max_member_count: 100       # 最大群组成员数
+  avatar_path: src/images/groups/  # 群组头像存储路径
+
+# 邮件配置 (用于管理员通知)
+email:
+  enabled: false
+  smtp_server: smtp.example.com
+  smtp_port: 587
+  username: admin@example.com
+  password: your_password
+  use_tls: true
+  from_address: admin@example.com
+
+# 界面配置
+ui:
+  animations: true            # 是否启用动画效果
+  message_animations: true    # 消息动画效果
+  theme: light                # 默认主题: light, dark
+  favicon: src/images/website.ico  # 网站图标路径
+
+# 日志配置
+logging:
+  level: INFO                 # 日志级别: DEBUG, INFO, WARNING, ERROR, CRITICAL
+  format: '%(asctime)s - %(name)s - %(levelname)s - %(message)s'  # 日志格式
+  filename: logs/fuckchat.log  # 日志文件路径
+  max_bytes: 10485760         # 日志文件大小限制 (10MB)
+
+# 管理员配置
+admin:
+  port: 5004
+  host: 127.0.0.1
+  username: admin
+  password: admin
+  email: admin@example.com
+  avatar: src/images/avtar.jpg  # 管理员头像路径
