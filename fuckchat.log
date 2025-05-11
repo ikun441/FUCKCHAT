@@ -1,0 +1,154 @@
+2025-05-11 16:25:17,255 - admin_server - INFO - ==== FUCKCHAT π‹¿Ì‘±∫ÛÃ®∑˛ŒÒ∆Ù∂Ø ====
+2025-05-11 16:25:17,255 - admin_server - INFO - ∆Ù∂Øπ‹¿Ì‘±∫ÛÃ®∑˛ŒÒ - http://127.0.0.1:5002/admin
+2025-05-11 16:25:17,273 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:5002
+2025-05-11 16:25:17,274 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2025-05-11 16:31:42,344 - admin_server - INFO - ==== FUCKCHAT π‹¿Ì‘±∫ÛÃ®∑˛ŒÒ∆Ù∂Ø ====
+2025-05-11 16:31:42,345 - admin_server - INFO - ∆Ù∂Øπ‹¿Ì‘±∫ÛÃ®∑˛ŒÒ - http://127.0.0.1:5004/admin
+2025-05-11 16:31:42,363 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:5004
+2025-05-11 16:31:42,365 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2025-05-11 16:31:44,440 - werkzeug - INFO - 127.0.0.1 - - [11/May/2025 16:31:44] "[33mGET / HTTP/1.1[0m" 404 -
+2025-05-11 16:31:44,506 - werkzeug - INFO - 127.0.0.1 - - [11/May/2025 16:31:44] "[33mGET /favicon.ico HTTP/1.1[0m" 404 -
+2025-05-11 16:31:46,409 - werkzeug - INFO - 127.0.0.1 - - [11/May/2025 16:31:46] "[33mGET / HTTP/1.1[0m" 404 -
+2025-05-11 16:31:47,219 - werkzeug - INFO - 127.0.0.1 - - [11/May/2025 16:31:47] "[33mGET / HTTP/1.1[0m" 404 -
+2025-05-11 16:31:47,417 - werkzeug - INFO - 127.0.0.1 - - [11/May/2025 16:31:47] "[33mGET / HTTP/1.1[0m" 404 -
+2025-05-11 16:35:55,181 - admin_server - INFO - ==== FUCKCHAT π‹¿Ì‘±∫ÛÃ®∑˛ŒÒ∆Ù∂Ø ====
+2025-05-11 16:35:55,182 - admin_server - INFO - ∆Ù∂Øπ‹¿Ì‘±∫ÛÃ®∑˛ŒÒ - http://127.0.0.1:5004/admin
+2025-05-11 16:35:55,198 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:5004
+2025-05-11 16:35:55,200 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2025-05-11 16:35:58,095 - admin_server - INFO - ∑√Œ ∏˘¬∑æ∂£¨÷ÿ∂®œÚµΩπ‹¿Ì‘±µ«¬º“≥√Ê
+2025-05-11 16:35:58,107 - werkzeug - INFO - 127.0.0.1 - - [11/May/2025 16:35:58] "[32mGET / HTTP/1.1[0m" 302 -
+2025-05-11 16:35:58,121 - werkzeug - INFO - 127.0.0.1 - - [11/May/2025 16:35:58] "GET /admin HTTP/1.1" 200 -
+2025-05-11 16:35:58,240 - werkzeug - INFO - 127.0.0.1 - - [11/May/2025 16:35:58] "[33mGET /js/admin_login.js HTTP/1.1[0m" 404 -
+2025-05-11 16:35:58,277 - werkzeug - INFO - 127.0.0.1 - - [11/May/2025 16:35:58] "[33mGET /js/common.js HTTP/1.1[0m" 404 -
+2025-05-11 16:35:58,286 - werkzeug - INFO - 127.0.0.1 - - [11/May/2025 16:35:58] "[33mGET /css/admin.css HTTP/1.1[0m" 404 -
+2025-05-11 16:35:58,289 - werkzeug - INFO - 127.0.0.1 - - [11/May/2025 16:35:58] "[33mGET /css/auth.css HTTP/1.1[0m" 404 -
+2025-05-11 16:35:58,295 - werkzeug - INFO - 127.0.0.1 - - [11/May/2025 16:35:58] "[33mGET /css/common.css HTTP/1.1[0m" 404 -
+2025-05-11 16:35:58,474 - werkzeug - INFO - 127.0.0.1 - - [11/May/2025 16:35:58] "[33mGET /src/images/website.ico HTTP/1.1[0m" 404 -
+2025-05-11 16:36:01,209 - werkzeug - INFO - 127.0.0.1 - - [11/May/2025 16:36:01] "GET /admin HTTP/1.1" 200 -
+2025-05-11 16:36:01,235 - werkzeug - INFO - 127.0.0.1 - - [11/May/2025 16:36:01] "[33mGET /css/common.css HTTP/1.1[0m" 404 -
+2025-05-11 16:36:01,238 - werkzeug - INFO - 127.0.0.1 - - [11/May/2025 16:36:01] "[33mGET /js/admin_login.js HTTP/1.1[0m" 404 -
+2025-05-11 16:36:01,241 - werkzeug - INFO - 127.0.0.1 - - [11/May/2025 16:36:01] "[33mGET /js/common.js HTTP/1.1[0m" 404 -
+2025-05-11 16:36:01,243 - werkzeug - INFO - 127.0.0.1 - - [11/May/2025 16:36:01] "[33mGET /css/admin.css HTTP/1.1[0m" 404 -
+2025-05-11 16:36:01,247 - werkzeug - INFO - 127.0.0.1 - - [11/May/2025 16:36:01] "[33mGET /css/auth.css HTTP/1.1[0m" 404 -
+2025-05-11 16:36:01,626 - werkzeug - INFO - 127.0.0.1 - - [11/May/2025 16:36:01] "GET /admin HTTP/1.1" 200 -
+2025-05-11 16:36:01,651 - werkzeug - INFO - 127.0.0.1 - - [11/May/2025 16:36:01] "[33mGET /css/common.css HTTP/1.1[0m" 404 -
+2025-05-11 16:36:01,656 - werkzeug - INFO - 127.0.0.1 - - [11/May/2025 16:36:01] "[33mGET /js/admin_login.js HTTP/1.1[0m" 404 -
+2025-05-11 16:36:01,660 - werkzeug - INFO - 127.0.0.1 - - [11/May/2025 16:36:01] "[33mGET /js/common.js HTTP/1.1[0m" 404 -
+2025-05-11 16:36:01,663 - werkzeug - INFO - 127.0.0.1 - - [11/May/2025 16:36:01] "[33mGET /css/admin.css HTTP/1.1[0m" 404 -
+2025-05-11 16:36:01,666 - werkzeug - INFO - 127.0.0.1 - - [11/May/2025 16:36:01] "[33mGET /css/auth.css HTTP/1.1[0m" 404 -
+2025-05-11 16:36:01,774 - werkzeug - INFO - 127.0.0.1 - - [11/May/2025 16:36:01] "GET /admin HTTP/1.1" 200 -
+2025-05-11 16:36:01,796 - werkzeug - INFO - 127.0.0.1 - - [11/May/2025 16:36:01] "[33mGET /css/common.css HTTP/1.1[0m" 404 -
+2025-05-11 16:36:01,800 - werkzeug - INFO - 127.0.0.1 - - [11/May/2025 16:36:01] "[33mGET /css/auth.css HTTP/1.1[0m" 404 -
+2025-05-11 16:36:01,803 - werkzeug - INFO - 127.0.0.1 - - [11/May/2025 16:36:01] "[33mGET /css/admin.css HTTP/1.1[0m" 404 -
+2025-05-11 16:36:01,806 - werkzeug - INFO - 127.0.0.1 - - [11/May/2025 16:36:01] "[33mGET /js/common.js HTTP/1.1[0m" 404 -
+2025-05-11 16:36:01,810 - werkzeug - INFO - 127.0.0.1 - - [11/May/2025 16:36:01] "[33mGET /js/admin_login.js HTTP/1.1[0m" 404 -
+2025-05-11 16:36:01,922 - werkzeug - INFO - 127.0.0.1 - - [11/May/2025 16:36:01] "GET /admin HTTP/1.1" 200 -
+2025-05-11 16:36:01,942 - werkzeug - INFO - 127.0.0.1 - - [11/May/2025 16:36:01] "[33mGET /css/common.css HTTP/1.1[0m" 404 -
+2025-05-11 16:36:01,943 - werkzeug - INFO - 127.0.0.1 - - [11/May/2025 16:36:01] "[33mGET /css/auth.css HTTP/1.1[0m" 404 -
+2025-05-11 16:36:01,948 - werkzeug - INFO - 127.0.0.1 - - [11/May/2025 16:36:01] "[33mGET /js/common.js HTTP/1.1[0m" 404 -
+2025-05-11 16:36:01,950 - werkzeug - INFO - 127.0.0.1 - - [11/May/2025 16:36:01] "[33mGET /css/admin.css HTTP/1.1[0m" 404 -
+2025-05-11 16:36:01,954 - werkzeug - INFO - 127.0.0.1 - - [11/May/2025 16:36:01] "[33mGET /js/admin_login.js HTTP/1.1[0m" 404 -
+2025-05-11 16:36:02,082 - werkzeug - INFO - 127.0.0.1 - - [11/May/2025 16:36:02] "GET /admin HTTP/1.1" 200 -
+2025-05-11 16:36:02,104 - werkzeug - INFO - 127.0.0.1 - - [11/May/2025 16:36:02] "[33mGET /css/common.css HTTP/1.1[0m" 404 -
+2025-05-11 16:36:02,110 - werkzeug - INFO - 127.0.0.1 - - [11/May/2025 16:36:02] "[33mGET /css/admin.css HTTP/1.1[0m" 404 -
+2025-05-11 16:36:02,112 - werkzeug - INFO - 127.0.0.1 - - [11/May/2025 16:36:02] "[33mGET /css/auth.css HTTP/1.1[0m" 404 -
+2025-05-11 16:36:02,117 - werkzeug - INFO - 127.0.0.1 - - [11/May/2025 16:36:02] "[33mGET /js/common.js HTTP/1.1[0m" 404 -
+2025-05-11 16:36:02,119 - werkzeug - INFO - 127.0.0.1 - - [11/May/2025 16:36:02] "[33mGET /js/admin_login.js HTTP/1.1[0m" 404 -
+2025-05-11 16:36:02,231 - werkzeug - INFO - 127.0.0.1 - - [11/May/2025 16:36:02] "GET /admin HTTP/1.1" 200 -
+2025-05-11 16:36:02,253 - werkzeug - INFO - 127.0.0.1 - - [11/May/2025 16:36:02] "[33mGET /css/common.css HTTP/1.1[0m" 404 -
+2025-05-11 16:36:02,256 - werkzeug - INFO - 127.0.0.1 - - [11/May/2025 16:36:02] "[33mGET /css/auth.css HTTP/1.1[0m" 404 -
+2025-05-11 16:36:02,259 - werkzeug - INFO - 127.0.0.1 - - [11/May/2025 16:36:02] "[33mGET /css/admin.css HTTP/1.1[0m" 404 -
+2025-05-11 16:36:02,263 - werkzeug - INFO - 127.0.0.1 - - [11/May/2025 16:36:02] "[33mGET /js/common.js HTTP/1.1[0m" 404 -
+2025-05-11 16:36:02,265 - werkzeug - INFO - 127.0.0.1 - - [11/May/2025 16:36:02] "[33mGET /js/admin_login.js HTTP/1.1[0m" 404 -
+2025-05-11 16:36:02,422 - werkzeug - INFO - 127.0.0.1 - - [11/May/2025 16:36:02] "GET /admin HTTP/1.1" 200 -
+2025-05-11 16:36:02,442 - werkzeug - INFO - 127.0.0.1 - - [11/May/2025 16:36:02] "[33mGET /css/common.css HTTP/1.1[0m" 404 -
+2025-05-11 16:36:02,449 - werkzeug - INFO - 127.0.0.1 - - [11/May/2025 16:36:02] "[33mGET /css/admin.css HTTP/1.1[0m" 404 -
+2025-05-11 16:36:02,453 - werkzeug - INFO - 127.0.0.1 - - [11/May/2025 16:36:02] "[33mGET /css/auth.css HTTP/1.1[0m" 404 -
+2025-05-11 16:36:02,456 - werkzeug - INFO - 127.0.0.1 - - [11/May/2025 16:36:02] "[33mGET /js/admin_login.js HTTP/1.1[0m" 404 -
+2025-05-11 16:36:02,459 - werkzeug - INFO - 127.0.0.1 - - [11/May/2025 16:36:02] "[33mGET /js/common.js HTTP/1.1[0m" 404 -
+2025-05-11 16:36:02,584 - werkzeug - INFO - 127.0.0.1 - - [11/May/2025 16:36:02] "GET /admin HTTP/1.1" 200 -
+2025-05-11 16:36:02,606 - werkzeug - INFO - 127.0.0.1 - - [11/May/2025 16:36:02] "[33mGET /css/common.css HTTP/1.1[0m" 404 -
+2025-05-11 16:36:02,609 - werkzeug - INFO - 127.0.0.1 - - [11/May/2025 16:36:02] "[33mGET /css/auth.css HTTP/1.1[0m" 404 -
+2025-05-11 16:36:02,610 - werkzeug - INFO - 127.0.0.1 - - [11/May/2025 16:36:02] "[33mGET /css/admin.css HTTP/1.1[0m" 404 -
+2025-05-11 16:36:02,613 - werkzeug - INFO - 127.0.0.1 - - [11/May/2025 16:36:02] "[33mGET /js/common.js HTTP/1.1[0m" 404 -
+2025-05-11 16:36:02,619 - werkzeug - INFO - 127.0.0.1 - - [11/May/2025 16:36:02] "[33mGET /js/admin_login.js HTTP/1.1[0m" 404 -
+2025-05-11 16:36:18,163 - admin_server - INFO - π‹¿Ì‘± admin µ«¬º≥…π¶
+2025-05-11 16:36:18,164 - werkzeug - INFO - 127.0.0.1 - - [11/May/2025 16:36:18] "POST /api/admin/login HTTP/1.1" 200 -
+2025-05-11 16:41:45,183 - admin_server - INFO - ==== FUCKCHAT π‹¿Ì‘±∫ÛÃ®∑˛ŒÒ∆Ù∂Ø ====
+2025-05-11 16:41:45,183 - admin_server - INFO - ∆Ù∂Øπ‹¿Ì‘±∫ÛÃ®∑˛ŒÒ - http://127.0.0.1:5004/admin
+2025-05-11 16:41:45,199 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:5004
+2025-05-11 16:41:45,201 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2025-05-11 16:41:51,288 - werkzeug - INFO - 127.0.0.1 - - [11/May/2025 16:41:51] "[32mGET /admin HTTP/1.1[0m" 302 -
+2025-05-11 16:41:51,299 - werkzeug - INFO - 127.0.0.1 - - [11/May/2025 16:41:51] "GET /admin/dashboard HTTP/1.1" 200 -
+2025-05-11 16:41:51,331 - werkzeug - INFO - 127.0.0.1 - - [11/May/2025 16:41:51] "[33mGET /src/images/admin-avatar.png HTTP/1.1[0m" 404 -
+2025-05-11 16:41:51,442 - werkzeug - INFO - 127.0.0.1 - - [11/May/2025 16:41:51] "GET /css/common.css HTTP/1.1" 200 -
+2025-05-11 16:41:51,443 - werkzeug - INFO - 127.0.0.1 - - [11/May/2025 16:41:51] "GET /js/admin.js HTTP/1.1" 200 -
+2025-05-11 16:41:51,446 - werkzeug - INFO - 127.0.0.1 - - [11/May/2025 16:41:51] "GET /css/admin.css HTTP/1.1" 200 -
+2025-05-11 16:41:51,447 - werkzeug - INFO - 127.0.0.1 - - [11/May/2025 16:41:51] "GET /js/common.js HTTP/1.1" 200 -
+2025-05-11 16:42:12,422 - werkzeug - INFO - 127.0.0.1 - - [11/May/2025 16:42:12] "[33mGET /admin/login HTTP/1.1[0m" 404 -
+2025-05-11 16:48:51,461 - admin_server - INFO - ==== FUCKCHAT π‹¿Ì‘±∫ÛÃ®∑˛ŒÒ∆Ù∂Ø ====
+2025-05-11 16:48:51,461 - admin_server - INFO - ∆Ù∂Øπ‹¿Ì‘±∫ÛÃ®∑˛ŒÒ - http://127.0.0.1:5004/admin
+2025-05-11 16:48:51,477 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:5004
+2025-05-11 16:48:51,479 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2025-05-11 16:48:56,783 - werkzeug - INFO - 127.0.0.1 - - [11/May/2025 16:48:56] "[32mGET /admin/dashboard HTTP/1.1[0m" 302 -
+2025-05-11 16:48:56,792 - werkzeug - INFO - 127.0.0.1 - - [11/May/2025 16:48:56] "GET /admin HTTP/1.1" 200 -
+2025-05-11 16:48:56,953 - werkzeug - INFO - 127.0.0.1 - - [11/May/2025 16:48:56] "[36mGET /css/admin.css HTTP/1.1[0m" 304 -
+2025-05-11 16:48:56,954 - werkzeug - INFO - 127.0.0.1 - - [11/May/2025 16:48:56] "GET /css/auth.css HTTP/1.1" 200 -
+2025-05-11 16:48:56,960 - werkzeug - INFO - 127.0.0.1 - - [11/May/2025 16:48:56] "[36mGET /css/common.css HTTP/1.1[0m" 304 -
+2025-05-11 16:48:56,962 - werkzeug - INFO - 127.0.0.1 - - [11/May/2025 16:48:56] "GET /js/admin_login.js HTTP/1.1" 200 -
+2025-05-11 16:48:56,967 - werkzeug - INFO - 127.0.0.1 - - [11/May/2025 16:48:56] "[36mGET /js/common.js HTTP/1.1[0m" 304 -
+2025-05-11 16:49:02,508 - admin_server - INFO - π‹¿Ì‘± admin µ«¬º≥…π¶
+2025-05-11 16:49:02,509 - werkzeug - INFO - 127.0.0.1 - - [11/May/2025 16:49:02] "POST /api/admin/login HTTP/1.1" 200 -
+2025-05-11 16:49:03,535 - werkzeug - INFO - 127.0.0.1 - - [11/May/2025 16:49:03] "GET /admin/dashboard HTTP/1.1" 200 -
+2025-05-11 16:49:03,567 - werkzeug - INFO - 127.0.0.1 - - [11/May/2025 16:49:03] "[36mGET /css/common.css HTTP/1.1[0m" 304 -
+2025-05-11 16:49:03,576 - werkzeug - INFO - 127.0.0.1 - - [11/May/2025 16:49:03] "[33mGET /src/images/admin-avatar.png HTTP/1.1[0m" 404 -
+2025-05-11 16:49:03,578 - werkzeug - INFO - 127.0.0.1 - - [11/May/2025 16:49:03] "[36mGET /js/common.js HTTP/1.1[0m" 304 -
+2025-05-11 16:49:03,583 - werkzeug - INFO - 127.0.0.1 - - [11/May/2025 16:49:03] "GET /js/admin.js HTTP/1.1" 200 -
+2025-05-11 16:49:03,586 - werkzeug - INFO - 127.0.0.1 - - [11/May/2025 16:49:03] "[36mGET /css/admin.css HTTP/1.1[0m" 304 -
+2025-05-11 16:49:04,354 - werkzeug - INFO - 127.0.0.1 - - [11/May/2025 16:49:04] "GET /api/admin/stats HTTP/1.1" 200 -
+2025-05-11 16:49:04,392 - werkzeug - INFO - 127.0.0.1 - - [11/May/2025 16:49:04] "GET /api/admin/logs?page=1&per_page=5 HTTP/1.1" 200 -
+2025-05-11 16:49:04,395 - werkzeug - INFO - 127.0.0.1 - - [11/May/2025 16:49:04] "GET /api/admin/users?page=1&per_page=5 HTTP/1.1" 200 -
+2025-05-11 16:49:13,009 - werkzeug - INFO - 127.0.0.1 - - [11/May/2025 16:49:13] "GET /api/admin/users?page=1&per_page=10 HTTP/1.1" 200 -
+2025-05-11 16:49:13,017 - werkzeug - INFO - 127.0.0.1 - - [11/May/2025 16:49:13] "GET /api/admin/users?page=1&per_page=10 HTTP/1.1" 200 -
+2025-05-11 16:49:19,533 - werkzeug - INFO - 127.0.0.1 - - [11/May/2025 16:49:19] "GET /api/admin/users?page=1&per_page=10 HTTP/1.1" 200 -
+2025-05-11 16:49:19,539 - werkzeug - INFO - 127.0.0.1 - - [11/May/2025 16:49:19] "GET /api/admin/users?page=1&per_page=10 HTTP/1.1" 200 -
+2025-05-11 16:50:48,072 - werkzeug - INFO - 127.0.0.1 - - [11/May/2025 16:50:48] "GET /api/admin/users?page=1&per_page=10 HTTP/1.1" 200 -
+2025-05-11 16:50:48,077 - werkzeug - INFO - 127.0.0.1 - - [11/May/2025 16:50:48] "GET /api/admin/users?page=1&per_page=10 HTTP/1.1" 200 -
+2025-05-11 16:51:05,351 - werkzeug - INFO - 127.0.0.1 - - [11/May/2025 16:51:05] "GET /api/admin/users?page=1&per_page=10 HTTP/1.1" 200 -
+2025-05-11 17:11:45,623 - werkzeug - INFO - 127.0.0.1 - - [11/May/2025 17:11:45] "GET /api/admin/users?page=1&per_page=10 HTTP/1.1" 200 -
+2025-05-11 17:11:45,627 - werkzeug - INFO - 127.0.0.1 - - [11/May/2025 17:11:45] "GET /api/admin/users?page=1&per_page=10 HTTP/1.1" 200 -
+2025-05-11 17:11:49,232 - werkzeug - INFO - 127.0.0.1 - - [11/May/2025 17:11:49] "GET /api/admin/users?page=1&per_page=10 HTTP/1.1" 200 -
+2025-05-11 17:11:49,240 - werkzeug - INFO - 127.0.0.1 - - [11/May/2025 17:11:49] "GET /api/admin/users?page=1&per_page=10 HTTP/1.1" 200 -
+2025-05-11 17:11:51,181 - werkzeug - INFO - 127.0.0.1 - - [11/May/2025 17:11:51] "GET /api/admin/users?page=2&per_page=10 HTTP/1.1" 200 -
+2025-05-11 17:11:52,332 - werkzeug - INFO - 127.0.0.1 - - [11/May/2025 17:11:52] "GET /api/admin/users?page=3&per_page=10 HTTP/1.1" 200 -
+2025-05-11 17:11:53,675 - werkzeug - INFO - 127.0.0.1 - - [11/May/2025 17:11:53] "GET /api/admin/users?page=4&per_page=10 HTTP/1.1" 200 -
+2025-05-11 17:11:54,114 - werkzeug - INFO - 127.0.0.1 - - [11/May/2025 17:11:54] "GET /api/admin/users?page=5&per_page=10 HTTP/1.1" 200 -
+2025-05-11 17:11:54,431 - werkzeug - INFO - 127.0.0.1 - - [11/May/2025 17:11:54] "GET /api/admin/users?page=6&per_page=10 HTTP/1.1" 200 -
+2025-05-11 17:11:55,541 - werkzeug - INFO - 127.0.0.1 - - [11/May/2025 17:11:55] "GET /api/admin/users?page=3&per_page=10 HTTP/1.1" 200 -
+2025-05-11 17:11:56,440 - werkzeug - INFO - 127.0.0.1 - - [11/May/2025 17:11:56] "GET /api/admin/users?page=9&per_page=10 HTTP/1.1" 200 -
+2025-05-11 17:11:57,813 - werkzeug - INFO - 127.0.0.1 - - [11/May/2025 17:11:57] "GET /api/admin/users?page=3&per_page=10 HTTP/1.1" 200 -
+2025-05-11 17:11:58,405 - werkzeug - INFO - 127.0.0.1 - - [11/May/2025 17:11:58] "GET /api/admin/users?page=2&per_page=10 HTTP/1.1" 200 -
+2025-05-11 17:11:58,992 - werkzeug - INFO - 127.0.0.1 - - [11/May/2025 17:11:58] "GET /api/admin/users?page=1&per_page=10 HTTP/1.1" 200 -
+2025-05-11 17:21:03,817 - admin_server - INFO - ==== FUCKCHAT π‹¿Ì‘±∫ÛÃ®∑˛ŒÒ∆Ù∂Ø ====
+2025-05-11 17:21:03,818 - admin_server - INFO - ∆Ù∂Øπ‹¿Ì‘±∫ÛÃ®∑˛ŒÒ - http://127.0.0.1:5004/admin
+2025-05-11 17:21:03,833 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:5004
+2025-05-11 17:21:03,834 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2025-05-11 17:21:12,502 - werkzeug - INFO - 127.0.0.1 - - [11/May/2025 17:21:12] "GET /admin/dashboard HTTP/1.1" 200 -
+2025-05-11 17:21:12,539 - werkzeug - INFO - 127.0.0.1 - - [11/May/2025 17:21:12] "[33mGET /src/images/admin-avatar.png HTTP/1.1[0m" 404 -
+2025-05-11 17:21:12,633 - werkzeug - INFO - 127.0.0.1 - - [11/May/2025 17:21:12] "[36mGET /css/common.css HTTP/1.1[0m" 304 -
+2025-05-11 17:21:12,646 - werkzeug - INFO - 127.0.0.1 - - [11/May/2025 17:21:12] "[36mGET /js/common.js HTTP/1.1[0m" 304 -
+2025-05-11 17:21:12,649 - werkzeug - INFO - 127.0.0.1 - - [11/May/2025 17:21:12] "GET /js/admin.js HTTP/1.1" 200 -
+2025-05-11 17:21:12,653 - werkzeug - INFO - 127.0.0.1 - - [11/May/2025 17:21:12] "[36mGET /css/admin.css HTTP/1.1[0m" 304 -
+2025-05-11 17:21:34,178 - werkzeug - INFO - 127.0.0.1 - - [11/May/2025 17:21:34] "GET /api/admin/stats HTTP/1.1" 200 -
+2025-05-11 17:21:34,196 - werkzeug - INFO - 127.0.0.1 - - [11/May/2025 17:21:34] "GET /api/admin/users?page=1&per_page=5 HTTP/1.1" 200 -
+2025-05-11 17:21:34,201 - werkzeug - INFO - 127.0.0.1 - - [11/May/2025 17:21:34] "GET /api/admin/logs?page=1&per_page=5 HTTP/1.1" 200 -
+2025-05-11 17:21:36,395 - werkzeug - INFO - 127.0.0.1 - - [11/May/2025 17:21:36] "GET /api/admin/users?page=1&per_page=10 HTTP/1.1" 200 -
+2025-05-11 17:21:36,400 - werkzeug - INFO - 127.0.0.1 - - [11/May/2025 17:21:36] "GET /api/admin/users?page=1&per_page=10 HTTP/1.1" 200 -
+2025-05-11 17:21:38,452 - werkzeug - INFO - 127.0.0.1 - - [11/May/2025 17:21:38] "GET /api/admin/groups?page=1&per_page=10 HTTP/1.1" 200 -
+2025-05-11 17:21:38,455 - werkzeug - INFO - 127.0.0.1 - - [11/May/2025 17:21:38] "GET /api/admin/groups?page=1&per_page=10 HTTP/1.1" 200 -
