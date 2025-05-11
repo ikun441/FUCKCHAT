@@ -66,7 +66,7 @@ start_admin.bat
 
 ### 测试用户
 
-- 管理员：username: `admin`, password: `admin123`
+- 管理员：username: `admin`, password: `admin123`（后台管理员账号在confg.yaml中设置）
 - 普通用户：username: `user`, password: `user123`
 
 ## 新增功能详解
@@ -117,6 +117,7 @@ FUCKCHAT/
 ├── start_admin.bat     # Windows环境管理员后台启动脚本
 ├── scripts/            # 脚本目录
 │   └── init_db.py      # 数据库初始化脚本
+│   └── update_db.py    # 数据库更新脚本
 ├── src/                # 静态资源
 │   └── images/         # 图片资源
 └── templates/          # 前端模板
