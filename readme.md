@@ -133,7 +133,7 @@ FUCKCHAT/
 - ChatGPT - 架构设计师
 - Claude - 全栈工程师
 - Cursor - 前端开发
-- Limin Zhang - 技术顾问
+- ikun441 - 技术顾问
 
 ## 接口说明
 
