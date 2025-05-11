@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>管理员登录 - FUCKCHAT</title>
+    <link rel="stylesheet" href="../css/common.css">
+    <link rel="stylesheet" href="../css/auth.css">
+    <link rel="stylesheet" href="../css/admin.css">
+    <link rel="icon" href="../../src/images/website.ico" type="image/x-icon">
+</head>
+<body class="admin-page">
+    <div class="container">
+        <div class="admin-login-container">
+            <div class="admin-logo">
+                <h1>FUCKCHAT</h1>
+                <p>管理员控制台</p>
+            </div>
+            
+            <div class="auth-card admin-login-card">
+                <h2>管理员登录</h2>
+                <div class="admin-notice">
+                    <p>⚠️ 注意：仅限授权管理员访问</p>
+                </div>
+                <form id="admin-login-form" action="/api/admin/login" method="post">
+                    <div class="form-group">
+                        <label for="username">管理员账号</label>
+                        <input type="text" id="username" name="username" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="password">管理员密码</label>
+                        <input type="password" id="password" name="password" required>
+                    </div>
+                    <div class="form-actions">
+                        <button type="submit" class="btn primary">登录管理控制台</button>
+                    </div>
+                </form>
+                <div class="auth-links">
+                    <p><a href="/">返回用户页面</a></p>
+                </div>
+            </div>
+            
+            <div class="admin-login-footer">
+                <p>FUCKCHAT 系统管理界面 | 版本 v1.0.0</p>
+            </div>
+        </div>
+    </div>
+    
+    <script src="../js/common.js"></script>
+    <script src="../js/admin_login.js"></script>
+</body>
+</html> 

@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>个人资料 - FUCKCHAT</title>
+    <link rel="stylesheet" href="../css/common.css">
+    <link rel="stylesheet" href="../css/profile.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="icon" href="../../src/images/website.ico" type="image/x-icon">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="logo">
+                <h1>FUCKCHAT</h1>
+                <p>畅所欲言的局域网聊天</p>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="/">首页</a></li>
+                    <li><a href="/chat">聊天</a></li>
+                    <li><a href="/mail">邮件</a></li>
+                    <li><a href="/profile" class="active">个人资料</a></li>
+                </ul>
+            </nav>
+        </header>
+        
+        <main>
+            <div class="profile-container">
+                <div class="profile-sidebar">
+                    <div class="user-card">
+                        <div class="user-avatar-container">
+                            <img src="../../src/images/default-avatar.png" alt="用户头像" id="current-avatar">
+                            <div class="avatar-overlay">
+                                <label for="avatar-upload" class="avatar-upload-btn">
+                                    <i class="fas fa-camera"></i>
+                                </label>
+                                <input type="file" id="avatar-upload" accept="image/*" style="display: none;">
+                            </div>
+                        </div>
+                        <h2 id="user-nickname">用户昵称</h2>
+                        <p class="user-status" id="user-status">在线</p>
+                        <div class="user-stats">
+                            <div class="stat">
+                                <span class="stat-value" id="user-kunbi">100</span>
+                                <span class="stat-label">坤币</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="sidebar-menu">
+                        <a href="#profile-settings" class="menu-item active">
+                            <i class="fas fa-user"></i> 基本资料
+                        </a>
+                        <a href="#account-settings" class="menu-item">
+                            <i class="fas fa-shield-alt"></i> 账号安全
+                        </a>
+                        <a href="#privacy-settings" class="menu-item">
+                            <i class="fas fa-lock"></i> 隐私设置
+                        </a>
+                        <a href="/chat" class="menu-item">
+                            <i class="fas fa-arrow-left"></i> 返回聊天
+                        </a>
+                    </div>
+                </div>
+                
+                <div class="profile-content">
+                    <section id="profile-settings" class="settings-section active">
+                        <h2>基本资料</h2>
+                        <p class="section-desc">设置您的个人信息和个性化内容</p>
+                        
+                        <form id="profile-form">
+                            <div class="form-group">
+                                <label for="nickname">昵称</label>
+                                <input type="text" id="nickname" name="nickname" placeholder="请输入昵称">
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="bio">个性签名</label>
+                                <textarea id="bio" name="bio" rows="3" placeholder="介绍一下自己吧"></textarea>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label>性别</label>
+                                <div class="radio-group">
+                                    <label class="radio-label">
+                                        <input type="radio" name="gender" value="male"> 男
+                                    </label>
+                                    <label class="radio-label">
+                                        <input type="radio" name="gender" value="female"> 女
+                                    </label>
+                                    <label class="radio-label">
+                                        <input type="radio" name="gender" value="other"> 保密
+                                    </label>
+                                </div>
+                            </div>
+                            
+                            <button type="submit" class="btn primary">保存更改</button>
+                        </form>
+                    </section>
+                    
+                    <section id="account-settings" class="settings-section">
+                        <h2>账号安全</h2>
+                        <p class="section-desc">管理您的密码和登录安全设置</p>
+                        
+                        <form id="password-form">
+                            <div class="form-group">
+                                <label for="current-password">当前密码</label>
+                                <input type="password" id="current-password" name="current_password" placeholder="请输入当前密码">
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="new-password">新密码</label>
+                                <input type="password" id="new-password" name="new_password" placeholder="请输入新密码">
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="confirm-password">确认新密码</label>
+                                <input type="password" id="confirm-password" name="confirm_password" placeholder="请再次输入新密码">
+                            </div>
+                            
+                            <button type="submit" class="btn primary">更改密码</button>
+                        </form>
+                        
+                        <div class="account-actions">
+                            <h3>账号操作</h3>
+                            <button id="logout-btn" class="btn secondary">退出登录</button>
+                            <button id="delete-account-btn" class="btn danger">注销账号</button>
+                        </div>
+                    </section>
+                    
+                    <section id="privacy-settings" class="settings-section">
+                        <h2>隐私设置</h2>
+                        <p class="section-desc">管理谁可以与您联系以及如何找到您</p>
+                        
+                        <div class="settings-group">
+                            <h3>允许添加好友方式</h3>
+                            <div class="checkbox-group">
+                                <label class="checkbox-label">
+                                    <input type="checkbox" name="allow_search" checked> 允许通过搜索添加
+                                </label>
+                                <label class="checkbox-label">
+                                    <input type="checkbox" name="allow_group" checked> 允许群聊中添加
+                                </label>
+                            </div>
+                        </div>
+                        
+                        <div class="settings-group">
+                            <h3>消息通知</h3>
+                            <div class="checkbox-group">
+                                <label class="checkbox-label">
+                                    <input type="checkbox" name="notify_message" checked> 接收消息通知
+                                </label>
+                                <label class="checkbox-label">
+                                    <input type="checkbox" name="notify_kunbi" checked> 接收坤币通知
+                                </label>
+                                <label class="checkbox-label">
+                                    <input type="checkbox" name="notify_friend" checked> 接收好友请求通知
+                                </label>
+                            </div>
+                        </div>
+                        
+                        <button id="save-privacy" class="btn primary">保存设置</button>
+                    </section>
+                </div>
+            </div>
+        </main>
+        
+        <footer>
+            <p>&copy; 2025 FUCKCHAT. 保留所有权利。</p>
+        </footer>
+    </div>
+    
+    <!-- 提示框 -->
+    <div class="toast" id="toast">
+        <div class="toast-content">
+            <i class="fas fa-check-circle toast-icon success"></i>
+            <div class="toast-message">操作成功</div>
+        </div>
+    </div>
+    
+    <!-- 注销账号确认模态框 -->
+    <div class="modal" id="delete-account-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>注销账号</h3>
+                <button class="close-btn"><i class="fas fa-times"></i></button>
+            </div>
+            <div class="modal-body">
+                <p class="warning-text">警告：账号注销后将无法恢复，所有数据将被删除！</p>
+                <p>请输入您的密码以确认注销：</p>
+                <form id="delete-account-form">
+                    <div class="form-group">
+                        <input type="password" id="confirm-delete-password" placeholder="输入密码确认" required>
+                    </div>
+                    <div class="form-actions">
+                        <button type="button" class="btn secondary close-modal-btn">取消</button>
+                        <button type="submit" class="btn danger">确认注销</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    
+    <script src="../js/common.js"></script>
+    <script src="../js/profile.js"></script>
+</body>
+</html> 

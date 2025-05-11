@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>邮件 - FUCKCHAT</title>
+    <link rel="stylesheet" href="../css/common.css">
+    <link rel="stylesheet" href="../css/mail.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="icon" href="../../src/images/website.ico" type="image/x-icon">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="logo">
+                <h1>FUCKCHAT</h1>
+                <p>畅所欲言的局域网聊天</p>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="/">首页</a></li>
+                    <li><a href="/chat">聊天</a></li>
+                    <li><a href="/mail" class="active">邮件</a></li>
+                    <li><a href="/profile">个人资料</a></li>
+                </ul>
+            </nav>
+        </header>
+        
+        <main>
+            <div class="mail-container">
+                <div class="mail-sidebar">
+                    <div class="mail-search">
+                        <input type="text" placeholder="搜索邮件...">
+                        <button><i class="fas fa-search"></i></button>
+                    </div>
+                    
+                    <div class="mail-folders">
+                        <div class="folder-title">文件夹</div>
+                        <a href="#" class="folder-item active" data-folder="inbox">
+                            <i class="fas fa-inbox"></i>
+                            <span>收件箱</span>
+                            <span class="badge">3</span>
+                        </a>
+                        <a href="#" class="folder-item" data-folder="system">
+                            <i class="fas fa-cog"></i>
+                            <span>系统通知</span>
+                            <span class="badge">1</span>
+                        </a>
+                        <a href="#" class="folder-item" data-folder="kunbi">
+                            <i class="fas fa-coins"></i>
+                            <span>坤币交易</span>
+                            <span class="badge">2</span>
+                        </a>
+                        <a href="#" class="folder-item" data-folder="friends">
+                            <i class="fas fa-user-friends"></i>
+                            <span>好友请求</span>
+                        </a>
+                    </div>
+                </div>
+                
+                <div class="mail-list">
+                    <div class="mail-list-header">
+                        <h2>收件箱</h2>
+                        <div class="mail-actions">
+                            <button class="refresh-btn"><i class="fas fa-sync-alt"></i></button>
+                            <button class="mark-read-btn"><i class="fas fa-check-double"></i></button>
+                            <button class="delete-btn"><i class="fas fa-trash"></i></button>
+                        </div>
+                    </div>
+                    
+                    <div class="mail-items">
+                        <div class="mail-item unread" data-id="1">
+                            <div class="mail-sender">
+                                <img src="../../src/images/admin-avatar.png" alt="发件人">
+                                <div class="sender-info">
+                                    <div class="sender-name">系统管理员</div>
+                                    <div class="mail-time">5分钟前</div>
+                                </div>
+                            </div>
+                            <div class="mail-content">
+                                <div class="mail-subject">欢迎使用FUCKCHAT邮件系统</div>
+                                <div class="mail-preview">您好，欢迎使用FUCKCHAT邮件系统。这里可以接收到系统通知、坤币交易和好友请求等重要消息...</div>
+                            </div>
+                        </div>
+                        
+                        <div class="mail-item unread" data-id="2">
+                            <div class="mail-sender">
+                                <img src="../../src/images/admin-avatar.png" alt="发件人">
+                                <div class="sender-info">
+                                    <div class="sender-name">坤币系统</div>
+                                    <div class="mail-time">3小时前</div>
+                                </div>
+                            </div>
+                            <div class="mail-content">
+                                <div class="mail-subject">您收到了一笔坤币转账</div>
+                                <div class="mail-preview">恭喜您收到了来自"管理员"的10坤币。点击查看详情...</div>
+                            </div>
+                        </div>
+                        
+                        <div class="mail-item" data-id="3">
+                            <div class="mail-sender">
+                                <img src="../../src/images/admin-avatar.png" alt="发件人">
+                                <div class="sender-info">
+                                    <div class="sender-name">系统通知</div>
+                                    <div class="mail-time">昨天</div>
+                                </div>
+                            </div>
+                            <div class="mail-content">
+                                <div class="mail-subject">系统维护通知</div>
+                                <div class="mail-preview">尊敬的用户，我们将于本周六凌晨2点至4点进行系统维护，期间服务可能会短暂不可用...</div>
+                            </div>
+                        </div>
+                        
+                        <div class="mail-item" data-id="4">
+                            <div class="mail-sender">
+                                <img src="../../src/images/default-avatar.png" alt="发件人">
+                                <div class="sender-info">
+                                    <div class="sender-name">用户系统</div>
+                                    <div class="mail-time">3天前</div>
+                                </div>
+                            </div>
+                            <div class="mail-content">
+                                <div class="mail-subject">好友请求通知</div>
+                                <div class="mail-preview">用户"张三"请求添加您为好友。您可以在此处接受或拒绝此请求...</div>
+                            </div>
+                        </div>
+                        
+                        <div class="mail-item" data-id="5">
+                            <div class="mail-sender">
+                                <img src="../../src/images/admin-avatar.png" alt="发件人">
+                                <div class="sender-info">
+                                    <div class="sender-name">坤币系统</div>
+                                    <div class="mail-time">5天前</div>
+                                </div>
+                            </div>
+                            <div class="mail-content">
+                                <div class="mail-subject">注册奖励</div>
+                                <div class="mail-preview">感谢您注册FUCKCHAT！我们已向您的账户发放了100坤币作为注册奖励...</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="mail-detail">
+                    <div class="mail-detail-header">
+                        <div class="mail-detail-title">
+                            <h2>欢迎使用FUCKCHAT邮件系统</h2>
+                            <div class="mail-detail-meta">
+                                <span class="sender"><i class="fas fa-user"></i> 系统管理员</span>
+                                <span class="time"><i class="fas fa-clock"></i> 2025-05-01 10:30</span>
+                            </div>
+                        </div>
+                        <div class="mail-detail-actions">
+                            <button class="reply-btn"><i class="fas fa-reply"></i></button>
+                            <button class="delete-btn"><i class="fas fa-trash"></i></button>
+                            <button class="close-detail-btn"><i class="fas fa-times"></i></button>
+                        </div>
+                    </div>
+                    
+                    <div class="mail-detail-content">
+                        <p>亲爱的用户：</p>
+                        <p>您好，欢迎使用FUCKCHAT邮件系统！</p>
+                        <p>在这里，您可以接收到以下类型的消息：</p>
+                        <ul>
+                            <li><strong>系统通知</strong> - 包括系统维护、功能更新等重要公告</li>
+                            <li><strong>坤币交易</strong> - 当您收到或发出坤币时的交易记录</li>
+                            <li><strong>好友请求</strong> - 其他用户发送给您的好友添加请求</li>
+                            <li><strong>管理员消息</strong> - 管理员发送的个人或群体通知</li>
+                        </ul>
+                        <p>如果您有任何问题或建议，可以直接回复此邮件与管理员联系。</p>
+                        <p>祝您使用愉快！</p>
+                        <p class="signature">FUCKCHAT 管理团队</p>
+                    </div>
+                    
+                    <div class="mail-attachment">
+                        <h3>附件</h3>
+                        <div class="attachment-item">
+                            <i class="fas fa-file-pdf"></i>
+                            <span class="attachment-name">FUCKCHAT用户手册.pdf</span>
+                            <a href="#" class="download-btn"><i class="fas fa-download"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+        
+        <footer>
+            <p>&copy; 2025 FUCKCHAT. 保留所有权利。</p>
+        </footer>
+    </div>
+    
+    <script src="../js/common.js"></script>
+    <script src="../js/mail.js"></script>
+</body>
+</html> 

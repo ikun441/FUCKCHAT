@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>聊天 - FUCKCHAT</title>
+    <link rel="stylesheet" href="/css/common.css">
+    <link rel="stylesheet" href="/css/chat.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="icon" href="/src/images/website.ico" type="image/x-icon">
+    <!-- Socket.IO 客户端库 -->
+    <script src="https://cdn.socket.io/4.4.1/socket.io.min.js"></script>
+</head>
+<body>
+    <div class="container chat-container">
+        <!-- 移动端菜单按钮 -->
+        <button id="mobile-menu-btn" class="mobile-menu-btn">
+            <i class="fas fa-bars"></i>
+        </button>
+        
+        <aside class="sidebar">
+            <div class="user-profile">
+                <div class="user-avatar">
+                    <img src="/images/default-avatar.png" alt="用户头像" id="user-avatar">
+                </div>
+                <div class="user-info">
+                    <h3 id="user-nickname">用户昵称</h3>
+                    <p id="user-kunbi">坤币: 100</p>
+                </div>
+            </div>
+            
+            <div class="tabs">
+                <button class="tab-btn active" data-tab="contacts">联系人</button>
+                <button class="tab-btn" data-tab="groups">群聊</button>
+            </div>
+            
+            <div class="tab-content active" id="contacts-tab">
+                <div class="search-bar">
+                    <input type="text" placeholder="搜索用户...">
+                    <button><i class="fas fa-search"></i></button>
+                </div>
+                
+                <div class="section-title">
+                    <h3>在线用户</h3>
+                </div>
+                <ul class="user-list" id="online-users">
+                    <!-- 在线用户列表将通过JavaScript动态生成 -->
+                </ul>
+                
+                <div class="section-title">
+                    <h3>最近联系人</h3>
+                </div>
+                <ul class="user-list" id="recent-contacts">
+                    <!-- 最近联系人列表将通过JavaScript动态生成 -->
+                </ul>
+            </div>
+            
+            <div class="tab-content" id="groups-tab">
+                <div class="search-bar">
+                    <input type="text" placeholder="搜索群聊...">
+                    <button><i class="fas fa-search"></i></button>
+                </div>
+                
+                <div class="section-title">
+                    <h3>我的群聊</h3>
+                    <button class="add-btn" id="create-group-btn"><i class="fas fa-plus"></i></button>
+                </div>
+                <ul class="group-list" id="my-groups">
+                    <!-- 群聊列表将通过JavaScript动态生成 -->
+                </ul>
+            </div>
+            
+            <div class="sidebar-footer">
+                <div class="header-actions">
+                    <button id="toggle-theme-btn" class="action-btn" title="切换主题">
+                        <i class="fas fa-moon"></i>
+                    </button>
+                    <a href="/mail" class="action-btn" title="查看邮件">
+                        <i class="fas fa-envelope"></i>
+                    </a>
+                    <a href="/profile" class="action-btn" title="个人资料">
+                        <i class="fas fa-user-cog"></i>
+                    </a>
+                    <button id="logout-btn" class="action-btn" title="退出登录">
+                        <i class="fas fa-sign-out-alt"></i>
+                    </button>
+                </div>
+            </div>
+        </aside>
+        
+        <main class="chat-main">
+            <div class="empty-chat-placeholder" id="empty-chat">
+                <div class="empty-chat-icon">
+                    <i class="far fa-comments"></i>
+                </div>
+                <h2>选择一个聊天开始交流</h2>
+                <p>从左侧选择联系人或群组开始聊天</p>
+            </div>
+            
+            <div class="chat-area" id="chat-area" style="display: none;">
+                <header class="chat-header">
+                    <div class="chat-info">
+                        <h2 id="chat-title">选择一个聊天</h2>
+                        <p id="chat-subtitle">点击左侧的用户或群组开始聊天</p>
+                    </div>
+                    <div class="chat-actions">
+                        <i class="fas fa-info-circle" title="聊天设置"></i>
+                    </div>
+                </header>
+                
+                <div class="messages-container" id="messages-container">
+                    <!-- 消息记录将通过JavaScript动态生成 -->
+                </div>
+                
+                <div class="message-composer">
+                    <div class="composer-tools">
+                        <button id="emoji-btn"><i class="far fa-smile"></i></button>
+                        <button id="image-btn"><i class="far fa-image"></i></button>
+                        <button id="voice-btn"><i class="fas fa-microphone"></i></button>
+                        <button id="kunbi-btn"><i class="fas fa-coins"></i></button>
+                    </div>
+                    <div class="composer-input">
+                        <textarea id="message-input" placeholder="输入消息..."></textarea>
+                        <button id="send-btn"><i class="fas fa-paper-plane"></i></button>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+    
+    <!-- 表情选择器模态框 -->
+    <div class="modal" id="emoji-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>选择表情</h3>
+                <button class="close-btn"><i class="fas fa-times"></i></button>
+            </div>
+            <div class="emoji-container" id="emoji-container">
+                <!-- 表情列表将通过JavaScript动态生成 -->
+            </div>
+        </div>
+    </div>
+    
+    <!-- 发送坤币模态框 -->
+    <div class="modal" id="kunbi-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>发送坤币</h3>
+                <button class="close-btn"><i class="fas fa-times"></i></button>
+            </div>
+            <div class="kunbi-form">
+                <div class="form-group">
+                    <label for="kunbi-amount">数量</label>
+                    <input type="number" id="kunbi-amount" min="1" value="10">
+                </div>
+                <div class="form-group">
+                    <label for="kunbi-message">留言</label>
+                    <input type="text" id="kunbi-message" placeholder="恭喜发财，大吉大利">
+                </div>
+                <button class="btn primary" id="send-kunbi-btn">发送红包</button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- 用户信息模态框 -->
+    <div id="user-info-modal" class="modal">
+        <div class="modal-content user-info-modal">
+            <div class="modal-header">
+                <h3>用户信息</h3>
+                <button class="close-btn"><i class="fas fa-times"></i></button>
+            </div>
+            <div class="user-info-container">
+                <div class="user-info-avatar">
+                    <img id="info-avatar" src="/src/images/avtar.jpg" alt="用户头像">
+                </div>
+                <div class="user-info-details">
+                    <div class="info-item">
+                        <span class="info-label">昵称:</span>
+                        <span id="info-nickname" class="info-value">-</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">用户名:</span>
+                        <span id="info-username" class="info-value">-</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">状态:</span>
+                        <span id="info-status" class="info-value">-</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">坤币:</span>
+                        <span id="info-kunbi" class="info-value">-</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">性别:</span>
+                        <span id="info-gender" class="info-value">-</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">个性签名:</span>
+                        <span id="info-signature" class="info-value">-</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">注册时间:</span>
+                        <span id="info-created-at" class="info-value">-</span>
+                    </div>
+                </div>
+                <div class="user-info-actions">
+                    <button id="start-chat-btn" class="btn primary">发起聊天</button>
+                    <button id="add-friend-btn" class="btn secondary">加为好友</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script src="/js/common.js"></script>
+    <script src="/js/chat.js"></script>
+</body>
+</html> 

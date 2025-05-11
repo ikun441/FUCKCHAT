@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>登录 - FUCKCHAT</title>
+    <link rel="stylesheet" href="/css/common.css">
+    <link rel="stylesheet" href="/css/auth.css">
+    <link rel="icon" href="/src/images/website.ico" type="image/x-icon">
+</head>
+<body class="auth-page">
+    <div class="container">
+        <header>
+            <div class="logo">
+                <h1>FUCKCHAT</h1>
+                <p>畅所欲言的局域网聊天</p>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="/">首页</a></li>
+                    <li><a href="/login" class="active">登录</a></li>
+                    <li><a href="/register">注册</a></li>
+                    <li><a href="/about">关于</a></li>
+                </ul>
+            </nav>
+        </header>
+        
+        <main>
+            <div class="auth-container">
+                <div class="auth-card">
+                    <h2>欢迎回来</h2>
+                    <div id="auth-error" class="auth-error"></div>
+                    <form id="login-form" action="/api/login" method="post">
+                        <div class="form-group" style="--i: 1">
+                            <label for="username">用户名</label>
+                            <input type="text" id="username" name="username" required>
+                        </div>
+                        <div class="form-group" style="--i: 2">
+                            <label for="password">密码</label>
+                            <input type="password" id="password" name="password" required>
+                        </div>
+                        <div class="form-actions">
+                            <button type="submit" class="btn primary">登录</button>
+                        </div>
+                    </form>
+                    <div class="auth-links">
+                        <p>还没有账号？<a href="/register">立即注册</a></p>
+                    </div>
+                </div>
+            </div>
+        </main>
+        
+        <footer>
+            <p>&copy; 2025 FUCKCHAT. 保留所有权利。</p>
+        </footer>
+    </div>
+    
+    <script src="/js/common.js"></script>
+    <script src="/js/login.js"></script>
+</body>
+</html> 

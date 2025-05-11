@@ -1,0 +1,767 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>管理控制台 - FUCKCHAT</title>
+    <link rel="stylesheet" href="../css/common.css">
+    <link rel="stylesheet" href="../css/admin.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/chart.js@3.7.0/dist/chart.min.css">
+    <link rel="icon" href="../../src/images/website.ico" type="image/x-icon">
+</head>
+<body class="admin-page">
+    <div class="admin-container">
+        <aside class="admin-sidebar">
+            <div class="admin-logo">
+                <h1>FUCKCHAT</h1>
+                <p>管理控制台</p>
+            </div>
+            
+            <nav class="admin-nav">
+                <ul>
+                    <li class="active"><a href="#dashboard"><i class="fas fa-home"></i> 仪表盘</a></li>
+                    <li><a href="#users"><i class="fas fa-users"></i> 用户管理</a></li>
+                    <li><a href="#chats"><i class="fas fa-comments"></i> 聊天管理</a></li>
+                    <li><a href="#groups"><i class="fas fa-user-friends"></i> 群组管理</a></li>
+                    <li><a href="#database"><i class="fas fa-database"></i> 数据库管理</a></li>
+                    <li><a href="#notifications"><i class="fas fa-bell"></i> 通知管理</a></li>
+                    <li><a href="#settings"><i class="fas fa-cog"></i> 系统设置</a></li>
+                </ul>
+            </nav>
+            
+            <div class="admin-user-info">
+                <div class="admin-avatar">
+                    <img src="../../src/images/admin-avatar.png" alt="管理员头像">
+                </div>
+                <div class="admin-details">
+                    <h3 id="admin-name">管理员</h3>
+                    <p id="admin-role">超级管理员</p>
+                </div>
+                <button id="admin-logout-btn"><i class="fas fa-sign-out-alt"></i></button>
+            </div>
+        </aside>
+        
+        <main class="admin-main">
+            <header class="admin-header">
+                <div class="breadcrumb">
+                    <h2>仪表盘</h2>
+                </div>
+                <div class="admin-actions">
+                    <button id="refresh-btn"><i class="fas fa-sync-alt"></i> 刷新</button>
+                    <div class="time-display" id="current-time">2025-05-01 12:00:00</div>
+                </div>
+            </header>
+            
+            <div class="admin-content">
+                <!-- 仪表盘部分 -->
+                <section id="dashboard-section" class="admin-section active">
+                    <div class="stat-cards">
+                        <div class="stat-card">
+                            <div class="stat-icon users-icon">
+                                <i class="fas fa-users"></i>
+                            </div>
+                            <div class="stat-info">
+                                <h3>总用户数</h3>
+                                <p class="stat-value" id="total-users">0</p>
+                                <p class="stat-change positive">+5% <span>本周</span></p>
+                            </div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-icon messages-icon">
+                                <i class="fas fa-comment-dots"></i>
+                            </div>
+                            <div class="stat-info">
+                                <h3>总消息数</h3>
+                                <p class="stat-value" id="total-messages">0</p>
+                                <p class="stat-change positive">+12% <span>本周</span></p>
+                            </div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-icon groups-icon">
+                                <i class="fas fa-user-friends"></i>
+                            </div>
+                            <div class="stat-info">
+                                <h3>总群组数</h3>
+                                <p class="stat-value" id="total-groups">0</p>
+                                <p class="stat-change positive">+3% <span>本周</span></p>
+                            </div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-icon online-icon">
+                                <i class="fas fa-signal"></i>
+                            </div>
+                            <div class="stat-info">
+                                <h3>在线用户</h3>
+                                <p class="stat-value" id="online-users-count">0</p>
+                                <p class="stat-change">实时</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="chart-container">
+                        <div class="chart-card">
+                            <h3>用户活跃度</h3>
+                            <canvas id="user-activity-chart"></canvas>
+                        </div>
+                        <div class="chart-card">
+                            <h3>消息类型分布</h3>
+                            <canvas id="message-types-chart"></canvas>
+                        </div>
+                    </div>
+                    
+                    <div class="admin-tables">
+                        <div class="admin-table-card">
+                            <div class="table-header">
+                                <h3>最近注册用户</h3>
+                                <a href="#users" class="view-all">查看全部 <i class="fas fa-arrow-right"></i></a>
+                            </div>
+                            <div class="table-container">
+                                <table class="admin-table">
+                                    <thead>
+                                        <tr>
+                                            <th>用户名</th>
+                                            <th>昵称</th>
+                                            <th>注册时间</th>
+                                            <th>坤币数量</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="recent-users-table">
+                                        <!-- 通过JavaScript动态填充 -->
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        
+                        <div class="admin-table-card">
+                            <div class="table-header">
+                                <h3>系统日志</h3>
+                                <a href="#logs" class="view-all">查看全部 <i class="fas fa-arrow-right"></i></a>
+                            </div>
+                            <div class="table-container">
+                                <table class="admin-table">
+                                    <thead>
+                                        <tr>
+                                            <th>时间</th>
+                                            <th>类型</th>
+                                            <th>内容</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="system-logs-table">
+                                        <!-- 通过JavaScript动态填充 -->
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                
+                <!-- 用户管理部分 -->
+                <section id="users-section" class="admin-section">
+                    <div class="section-header">
+                        <h2>用户管理</h2>
+                        <div class="section-actions">
+                            <button class="btn primary" id="add-user-btn"><i class="fas fa-plus"></i> 添加用户</button>
+                            <div class="search-box">
+                                <input type="text" placeholder="搜索用户...">
+                                <button><i class="fas fa-search"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="table-container">
+                        <table class="admin-table">
+                            <thead>
+                                <tr>
+                                    <th><input type="checkbox" id="select-all-users"></th>
+                                    <th>ID</th>
+                                    <th>用户名</th>
+                                    <th>昵称</th>
+                                    <th>注册时间</th>
+                                    <th>最后登录</th>
+                                    <th>坤币数量</th>
+                                    <th>状态</th>
+                                    <th>操作</th>
+                                </tr>
+                            </thead>
+                            <tbody id="users-table">
+                                <!-- 通过JavaScript动态填充 -->
+                            </tbody>
+                        </table>
+                    </div>
+                    
+                    <div class="pagination">
+                        <button class="page-btn" disabled><i class="fas fa-chevron-left"></i></button>
+                        <div class="page-numbers">
+                            <button class="page-number active">1</button>
+                            <button class="page-number">2</button>
+                            <button class="page-number">3</button>
+                        </div>
+                        <button class="page-btn"><i class="fas fa-chevron-right"></i></button>
+                    </div>
+                </section>
+                
+                <!-- 聊天管理部分 -->
+                <section id="chats-section" class="admin-section">
+                    <div class="section-header">
+                        <h2>聊天管理</h2>
+                        <div class="section-actions">
+                            <div class="search-box">
+                                <input type="text" placeholder="搜索聊天记录...">
+                                <button><i class="fas fa-search"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="admin-tabs">
+                        <div class="tab active" data-tab="private-chats">私聊消息</div>
+                        <div class="tab" data-tab="group-chats">群聊消息</div>
+                        <div class="tab" data-tab="reported-messages">举报消息</div>
+                    </div>
+                    
+                    <div class="tab-content active" id="private-chats-content">
+                        <div class="table-container">
+                            <table class="admin-table">
+                                <thead>
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>发送者</th>
+                                        <th>接收者</th>
+                                        <th>内容</th>
+                                        <th>类型</th>
+                                        <th>时间</th>
+                                        <th>操作</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="private-chats-table">
+                                    <!-- 通过JavaScript动态填充 -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    
+                    <div class="tab-content" id="group-chats-content">
+                        <div class="table-container">
+                            <table class="admin-table">
+                                <thead>
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>发送者</th>
+                                        <th>群组</th>
+                                        <th>内容</th>
+                                        <th>类型</th>
+                                        <th>时间</th>
+                                        <th>操作</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="group-chats-table">
+                                    <!-- 通过JavaScript动态填充 -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    
+                    <div class="tab-content" id="reported-messages-content">
+                        <div class="table-container">
+                            <table class="admin-table">
+                                <thead>
+                                    <tr>
+                                        <th>举报ID</th>
+                                        <th>举报者</th>
+                                        <th>被举报消息</th>
+                                        <th>举报原因</th>
+                                        <th>举报时间</th>
+                                        <th>状态</th>
+                                        <th>操作</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="reported-messages-table">
+                                    <!-- 通过JavaScript动态填充 -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    
+                    <div class="pagination">
+                        <button class="page-btn" disabled><i class="fas fa-chevron-left"></i></button>
+                        <div class="page-numbers">
+                            <button class="page-number active">1</button>
+                            <button class="page-number">2</button>
+                            <button class="page-number">3</button>
+                        </div>
+                        <button class="page-btn"><i class="fas fa-chevron-right"></i></button>
+                    </div>
+                </section>
+                
+                <!-- 群组管理部分 -->
+                <section id="groups-section" class="admin-section">
+                    <div class="section-header">
+                        <h2>群组管理</h2>
+                        <div class="section-actions">
+                            <button class="btn primary" id="add-group-btn"><i class="fas fa-plus"></i> 创建群组</button>
+                            <div class="search-box">
+                                <input type="text" placeholder="搜索群组...">
+                                <button><i class="fas fa-search"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="table-container">
+                        <table class="admin-table">
+                            <thead>
+                                <tr>
+                                    <th><input type="checkbox" id="select-all-groups"></th>
+                                    <th>ID</th>
+                                    <th>群组名称</th>
+                                    <th>创建者</th>
+                                    <th>成员数量</th>
+                                    <th>创建时间</th>
+                                    <th>状态</th>
+                                    <th>操作</th>
+                                </tr>
+                            </thead>
+                            <tbody id="groups-table">
+                                <!-- 通过JavaScript动态填充 -->
+                            </tbody>
+                        </table>
+                    </div>
+                    
+                    <div class="pagination">
+                        <button class="page-btn" disabled><i class="fas fa-chevron-left"></i></button>
+                        <div class="page-numbers">
+                            <button class="page-number active">1</button>
+                            <button class="page-number">2</button>
+                            <button class="page-number">3</button>
+                        </div>
+                        <button class="page-btn"><i class="fas fa-chevron-right"></i></button>
+                    </div>
+                </section>
+                
+                <!-- 数据库管理部分 -->
+                <section id="database-section" class="admin-section">
+                    <div class="section-header">
+                        <h2>数据库管理</h2>
+                        <div class="section-actions">
+                            <button class="btn warning" id="backup-db-btn"><i class="fas fa-download"></i> 备份数据库</button>
+                            <button class="btn primary" id="optimize-db-btn"><i class="fas fa-bolt"></i> 优化数据库</button>
+                        </div>
+                    </div>
+                    
+                    <div class="admin-tabs">
+                        <div class="tab active" data-tab="db-status">数据库状态</div>
+                        <div class="tab" data-tab="db-tables">数据表</div>
+                        <div class="tab" data-tab="db-backups">备份记录</div>
+                    </div>
+                    
+                    <div class="tab-content active" id="db-status-content">
+                        <div class="stat-cards db-stats">
+                            <div class="stat-card">
+                                <div class="stat-icon">
+                                    <i class="fas fa-database"></i>
+                                </div>
+                                <div class="stat-info">
+                                    <h3>数据库大小</h3>
+                                    <p class="stat-value" id="db-size">0 MB</p>
+                                </div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-icon">
+                                    <i class="fas fa-table"></i>
+                                </div>
+                                <div class="stat-info">
+                                    <h3>表数量</h3>
+                                    <p class="stat-value" id="table-count">0</p>
+                                </div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-icon">
+                                    <i class="fas fa-history"></i>
+                                </div>
+                                <div class="stat-info">
+                                    <h3>最后备份</h3>
+                                    <p class="stat-value" id="last-backup">无</p>
+                                </div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-icon">
+                                    <i class="fas fa-check-circle"></i>
+                                </div>
+                                <div class="stat-info">
+                                    <h3>数据库状态</h3>
+                                    <p class="stat-value" id="db-status">正常</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="tab-content" id="db-tables-content">
+                        <div class="table-container">
+                            <table class="admin-table">
+                                <thead>
+                                    <tr>
+                                        <th>表名</th>
+                                        <th>记录数</th>
+                                        <th>大小</th>
+                                        <th>最后更新</th>
+                                        <th>操作</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="tables-list">
+                                    <!-- 通过JavaScript动态填充 -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    
+                    <div class="tab-content" id="db-backups-content">
+                        <div class="table-container">
+                            <table class="admin-table">
+                                <thead>
+                                    <tr>
+                                        <th>备份时间</th>
+                                        <th>备份大小</th>
+                                        <th>备份类型</th>
+                                        <th>备份文件</th>
+                                        <th>操作</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="backups-list">
+                                    <!-- 通过JavaScript动态填充 -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </section>
+                
+                <!-- 通知管理部分 -->
+                <section id="notifications-section" class="admin-section">
+                    <div class="section-header">
+                        <h2>通知管理</h2>
+                        <div class="section-actions">
+                            <button class="btn primary" id="send-notification-btn"><i class="fas fa-paper-plane"></i> 发送通知</button>
+                        </div>
+                    </div>
+                    
+                    <div class="admin-tabs">
+                        <div class="tab active" data-tab="sent-notifications">已发送通知</div>
+                        <div class="tab" data-tab="notification-templates">通知模板</div>
+                        <div class="tab" data-tab="notification-stats">通知统计</div>
+                    </div>
+                    
+                    <div class="tab-content active" id="sent-notifications-content">
+                        <div class="table-container">
+                            <table class="admin-table">
+                                <thead>
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>标题</th>
+                                        <th>内容</th>
+                                        <th>接收范围</th>
+                                        <th>发送时间</th>
+                                        <th>已读数量</th>
+                                        <th>操作</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="notifications-list">
+                                    <!-- 通过JavaScript动态填充 -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    
+                    <div class="tab-content" id="notification-templates-content">
+                        <div class="templates-grid">
+                            <div class="template-card">
+                                <h4>系统维护通知</h4>
+                                <p>亲爱的用户，系统将于{time}进行例行维护，预计持续{duration}。维护期间将暂停服务，给您带来不便敬请谅解。</p>
+                                <div class="template-actions">
+                                    <button class="btn small secondary">编辑</button>
+                                    <button class="btn small primary">使用</button>
+                                </div>
+                            </div>
+                            <div class="template-card">
+                                <h4>功能更新通知</h4>
+                                <p>亲爱的用户，FUCKCHAT已更新至{version}版本，新增{features}等功能，赶快体验吧！</p>
+                                <div class="template-actions">
+                                    <button class="btn small secondary">编辑</button>
+                                    <button class="btn small primary">使用</button>
+                                </div>
+                            </div>
+                            <div class="template-card">
+                                <h4>活动通知</h4>
+                                <p>亲爱的用户，{activity_name}活动已开启，参与可获得丰厚坤币奖励！活动截止时间：{deadline}。</p>
+                                <div class="template-actions">
+                                    <button class="btn small secondary">编辑</button>
+                                    <button class="btn small primary">使用</button>
+                                </div>
+                            </div>
+                            <div class="template-card add-template">
+                                <i class="fas fa-plus"></i>
+                                <p>创建新模板</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="tab-content" id="notification-stats-content">
+                        <div class="chart-container">
+                            <div class="chart-card">
+                                <h3>通知发送统计</h3>
+                                <canvas id="notification-stats-chart"></canvas>
+                            </div>
+                            <div class="chart-card">
+                                <h3>通知阅读率</h3>
+                                <canvas id="notification-read-chart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                
+                <!-- 系统设置部分 -->
+                <section id="settings-section" class="admin-section">
+                    <div class="section-header">
+                        <h2>系统设置</h2>
+                        <div class="section-actions">
+                            <button class="btn primary" id="save-settings-btn"><i class="fas fa-save"></i> 保存设置</button>
+                        </div>
+                    </div>
+                    
+                    <div class="settings-container">
+                        <div class="settings-sidebar">
+                            <ul class="settings-nav">
+                                <li class="active" data-settings="general">一般设置</li>
+                                <li data-settings="user">用户设置</li>
+                                <li data-settings="chat">聊天设置</li>
+                                <li data-settings="security">安全设置</li>
+                                <li data-settings="email">邮件设置</li>
+                                <li data-settings="advanced">高级设置</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="settings-content">
+                            <div class="settings-panel active" id="general-settings">
+                                <h3>一般设置</h3>
+                                <form id="general-settings-form">
+                                    <div class="form-group">
+                                        <label for="site-name">网站名称</label>
+                                        <input type="text" id="site-name" value="FUCKCHAT">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="site-description">网站描述</label>
+                                        <textarea id="site-description" rows="2">基于Python和Web技术开发的局域网聊天应用</textarea>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="time-zone">时区设置</label>
+                                        <select id="time-zone">
+                                            <option value="Asia/Shanghai">中国标准时间 (GMT+8)</option>
+                                            <option value="UTC">协调世界时 (UTC)</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>维护模式</label>
+                                        <div class="toggle-switch">
+                                            <input type="checkbox" id="maintenance-mode">
+                                            <label for="maintenance-mode"></label>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                            
+                            <div class="settings-panel" id="user-settings">
+                                <h3>用户设置</h3>
+                                <form id="user-settings-form">
+                                    <div class="form-group">
+                                        <label for="default-kunbi">新用户默认坤币</label>
+                                        <input type="number" id="default-kunbi" value="100" min="0">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="user-registration">开放注册</label>
+                                        <div class="toggle-switch">
+                                            <input type="checkbox" id="user-registration" checked>
+                                            <label for="user-registration"></label>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="max-avatar-size">最大头像大小 (KB)</label>
+                                        <input type="number" id="max-avatar-size" value="1024" min="100">
+                                    </div>
+                                </form>
+                            </div>
+                            
+                            <div class="settings-panel" id="chat-settings">
+                                <h3>聊天设置</h3>
+                                <form id="chat-settings-form">
+                                    <div class="form-group">
+                                        <label for="max-message-length">最大消息长度</label>
+                                        <input type="number" id="max-message-length" value="1000" min="100">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="max-red-packet">最大红包金额</label>
+                                        <input type="number" id="max-red-packet" value="10000" min="100">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="max-group-members">群组最大成员数</label>
+                                        <input type="number" id="max-group-members" value="100" min="10">
+                                    </div>
+                                    <div class="form-group">
+                                        <label>红包动画</label>
+                                        <div class="toggle-switch">
+                                            <input type="checkbox" id="red-packet-animation" checked>
+                                            <label for="red-packet-animation"></label>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                            
+                            <div class="settings-panel" id="security-settings">
+                                <h3>安全设置</h3>
+                                <form id="security-settings-form">
+                                    <div class="form-group">
+                                        <label for="admin-password">管理员密码</label>
+                                        <input type="password" id="admin-password" placeholder="输入新密码以更改">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="admin-password-confirm">确认密码</label>
+                                        <input type="password" id="admin-password-confirm" placeholder="再次输入密码">
+                                    </div>
+                                    <div class="form-group">
+                                        <label>启用IP黑名单</label>
+                                        <div class="toggle-switch">
+                                            <input type="checkbox" id="enable-ip-blacklist">
+                                            <label for="enable-ip-blacklist"></label>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                            
+                            <div class="settings-panel" id="email-settings">
+                                <h3>邮件设置</h3>
+                                <form id="email-settings-form">
+                                    <div class="form-group">
+                                        <label>启用邮件通知</label>
+                                        <div class="toggle-switch">
+                                            <input type="checkbox" id="enable-email">
+                                            <label for="enable-email"></label>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="smtp-server">SMTP服务器</label>
+                                        <input type="text" id="smtp-server" value="smtp.example.com">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="smtp-port">SMTP端口</label>
+                                        <input type="number" id="smtp-port" value="587">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="smtp-username">SMTP用户名</label>
+                                        <input type="text" id="smtp-username" value="admin@example.com">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="smtp-password">SMTP密码</label>
+                                        <input type="password" id="smtp-password" placeholder="输入密码">
+                                    </div>
+                                </form>
+                            </div>
+                            
+                            <div class="settings-panel" id="advanced-settings">
+                                <h3>高级设置</h3>
+                                <form id="advanced-settings-form">
+                                    <div class="form-group">
+                                        <label>启用调试模式</label>
+                                        <div class="toggle-switch">
+                                            <input type="checkbox" id="debug-mode">
+                                            <label for="debug-mode"></label>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="log-level">日志级别</label>
+                                        <select id="log-level">
+                                            <option value="INFO">INFO</option>
+                                            <option value="DEBUG">DEBUG</option>
+                                            <option value="WARNING">WARNING</option>
+                                            <option value="ERROR">ERROR</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="server-port">服务器端口</label>
+                                        <input type="number" id="server-port" value="5000" min="1024" max="65535">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="admin-port">管理员端口</label>
+                                        <input type="number" id="admin-port" value="5004" min="1024" max="65535">
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                
+                <!-- 其他管理部分根据需要添加，结构类似 -->
+            </div>
+        </main>
+    </div>
+    
+    <!-- 模态框 - 添加用户 -->
+    <div class="modal" id="add-user-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>添加新用户</h3>
+                <button class="close-btn"><i class="fas fa-times"></i></button>
+            </div>
+            <form id="add-user-form">
+                <div class="form-group">
+                    <label for="new-username">用户名</label>
+                    <input type="text" id="new-username" required>
+                </div>
+                <div class="form-group">
+                    <label for="new-nickname">昵称</label>
+                    <input type="text" id="new-nickname" required>
+                </div>
+                <div class="form-group">
+                    <label for="new-password">密码</label>
+                    <input type="password" id="new-password" required>
+                </div>
+                <div class="form-group">
+                    <label for="new-kunbi">初始坤币</label>
+                    <input type="number" id="new-kunbi" value="100" min="0">
+                </div>
+                <div class="form-actions">
+                    <button type="button" class="btn secondary" id="cancel-add-user">取消</button>
+                    <button type="submit" class="btn primary">添加</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    
+    <!-- 系统通知模态框 -->
+    <div class="modal" id="notification-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>发送系统通知</h3>
+                <button class="close-btn"><i class="fas fa-times"></i></button>
+            </div>
+            <form id="send-notification-form">
+                <div class="form-group">
+                    <label for="notification-type">通知类型</label>
+                    <select id="notification-type">
+                        <option value="all">全体用户</option>
+                        <option value="user">指定用户</option>
+                        <option value="group">指定群组</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="notification-content">通知内容</label>
+                    <textarea id="notification-content" rows="4" required></textarea>
+                </div>
+                <div class="form-actions">
+                    <button type="button" class="btn secondary">取消</button>
+                    <button type="submit" class="btn primary">发送</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@3.7.0/dist/chart.min.js"></script>
+    <script src="../js/common.js"></script>
+    <script src="../js/admin.js"></script>
+</body>
+</html> 

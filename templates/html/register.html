@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>注册 - FUCKCHAT</title>
+    <link rel="stylesheet" href="/css/common.css">
+    <link rel="stylesheet" href="/css/auth.css">
+    <link rel="icon" href="/src/images/website.ico" type="image/x-icon">
+</head>
+<body class="auth-page">
+    <div class="container">
+        <header>
+            <div class="logo">
+                <h1>FUCKCHAT</h1>
+                <p>畅所欲言的局域网聊天</p>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="/">首页</a></li>
+                    <li><a href="/login">登录</a></li>
+                    <li><a href="/register" class="active">注册</a></li>
+                    <li><a href="/about">关于</a></li>
+                </ul>
+            </nav>
+        </header>
+        
+        <main>
+            <div class="auth-container">
+                <div class="auth-card">
+                    <h2>创建新账号</h2>
+                    <div id="auth-error" class="auth-error"></div>
+                    <form id="register-form" action="/api/register" method="post">
+                        <div class="form-group" style="--i: 1">
+                            <label for="username">用户名</label>
+                            <input type="text" id="username" name="username" required>
+                        </div>
+                        <div class="form-group" style="--i: 2">
+                            <label for="nickname">昵称</label>
+                            <input type="text" id="nickname" name="nickname" required>
+                        </div>
+                        <div class="form-group" style="--i: 3">
+                            <label for="password">密码</label>
+                            <input type="password" id="password" name="password" required>
+                        </div>
+                        <div class="form-group" style="--i: 4">
+                            <label for="confirm-password">确认密码</label>
+                            <input type="password" id="confirm-password" name="confirm-password" required>
+                        </div>
+                        <div class="form-actions">
+                            <button type="submit" class="btn primary">注册</button>
+                        </div>
+                    </form>
+                    <div class="auth-links">
+                        <p>已有账号？<a href="/login">立即登录</a></p>
+                    </div>
+                </div>
+            </div>
+        </main>
+        
+        <footer>
+            <p>&copy; 2025 FUCKCHAT. 保留所有权利。</p>
+        </footer>
+    </div>
+    
+    <script src="/js/common.js"></script>
+    <script src="/js/register.js"></script>
+</body>
+</html> 

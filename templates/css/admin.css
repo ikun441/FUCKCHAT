@@ -1,0 +1,482 @@
+/* 管理员页面样式 */
+
+/* 管理员页面全局样式 */
+.admin-page {
+    background-color: #1a202c;
+    color: white;
+}
+
+/* 管理后台容器 */
+.admin-container {
+    display: flex;
+    height: 100vh;
+    width: 100%;
+}
+
+/* 侧边栏 */
+.admin-sidebar {
+    width: 240px;
+    background-color: #2d3748;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    overflow-y: auto;
+}
+
+.admin-logo {
+    padding: var(--spacing-md);
+    text-align: center;
+    border-bottom: 1px solid #4a5568;
+}
+
+.admin-logo h1 {
+    color: white;
+    font-size: 24px;
+}
+
+.admin-logo p {
+    color: #a0aec0;
+    font-size: 12px;
+}
+
+/* 管理导航 */
+.admin-nav {
+    padding: var(--spacing-md) 0;
+    flex-grow: 1;
+}
+
+.admin-nav ul {
+    display: flex;
+    flex-direction: column;
+}
+
+.admin-nav li {
+    position: relative;
+}
+
+.admin-nav li a {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+    padding: 12px var(--spacing-md);
+    color: #a0aec0;
+    transition: all var(--transition-speed);
+}
+
+.admin-nav li a:hover {
+    background-color: #4a5568;
+    color: white;
+}
+
+.admin-nav li.active a {
+    background-color: #4a6bff;
+    color: white;
+}
+
+.admin-nav li.active::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 100%;
+    width: 3px;
+    background-color: white;
+}
+
+.admin-nav li i {
+    width: 20px;
+    text-align: center;
+}
+
+/* 管理员用户信息 */
+.admin-user-info {
+    padding: var(--spacing-md);
+    border-top: 1px solid #4a5568;
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+}
+
+.admin-avatar {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    overflow: hidden;
+    background-color: #4a5568;
+}
+
+.admin-avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.admin-details {
+    flex-grow: 1;
+}
+
+.admin-details h3 {
+    font-size: 14px;
+    margin-bottom: 2px;
+}
+
+.admin-details p {
+    font-size: 12px;
+    color: #a0aec0;
+}
+
+#admin-logout-btn {
+    background: none;
+    border: none;
+    color: #a0aec0;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+#admin-logout-btn:hover {
+    color: white;
+}
+
+/* 主内容区域 */
+.admin-main {
+    flex-grow: 1;
+    background-color: #f8f9fa;
+    color: var(--text-primary);
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+}
+
+/* 管理头部 */
+.admin-header {
+    background-color: white;
+    padding: var(--spacing-md);
+    border-bottom: 1px solid var(--border-color);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.breadcrumb h2 {
+    font-size: 20px;
+    font-weight: 600;
+}
+
+.admin-actions {
+    display: flex;
+    gap: var(--spacing-md);
+    align-items: center;
+}
+
+#refresh-btn {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+    padding: 6px 12px;
+    border-radius: var(--border-radius);
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.time-display {
+    color: var(--text-secondary);
+    font-size: 14px;
+}
+
+/* 管理内容区域 */
+.admin-content {
+    padding: var(--spacing-lg);
+    flex-grow: 1;
+}
+
+/* 管理部分 */
+.admin-section {
+    display: none;
+}
+
+.admin-section.active {
+    display: block;
+}
+
+/* 统计卡片 */
+.stat-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: var(--spacing-md);
+    margin-bottom: var(--spacing-lg);
+}
+
+.stat-card {
+    background-color: white;
+    box-shadow: var(--shadow-sm);
+    border-radius: var(--border-radius);
+    padding: var(--spacing-md);
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-md);
+}
+
+.stat-icon {
+    width: 50px;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    border-radius: 12px;
+    color: white;
+}
+
+.users-icon {
+    background-color: var(--primary-color);
+}
+
+.messages-icon {
+    background-color: var(--secondary-color);
+}
+
+.groups-icon {
+    background-color: var(--success-color);
+}
+
+.online-icon {
+    background-color: var(--warning-color);
+}
+
+.stat-info {
+    flex-grow: 1;
+}
+
+.stat-info h3 {
+    font-size: 14px;
+    color: var(--text-secondary);
+    margin-bottom: 2px;
+}
+
+.stat-value {
+    font-size: 24px;
+    font-weight: 700;
+    margin-bottom: 2px;
+}
+
+.stat-change {
+    font-size: 12px;
+    color: var(--text-secondary);
+}
+
+.stat-change.positive {
+    color: var(--success-color);
+}
+
+.stat-change.negative {
+    color: var(--danger-color);
+}
+
+.stat-change span {
+    color: var(--text-muted);
+}
+
+/* 图表容器 */
+.chart-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+    gap: var(--spacing-lg);
+    margin-bottom: var(--spacing-lg);
+}
+
+.chart-card {
+    background-color: white;
+    box-shadow: var(--shadow-sm);
+    border-radius: var(--border-radius);
+    padding: var(--spacing-md);
+}
+
+.chart-card h3 {
+    margin-bottom: var(--spacing-md);
+    font-size: 16px;
+    font-weight: 600;
+}
+
+/* 表格部分 */
+.admin-tables {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
+    gap: var(--spacing-lg);
+}
+
+.admin-table-card {
+    background-color: white;
+    box-shadow: var(--shadow-sm);
+    border-radius: var(--border-radius);
+    overflow: hidden;
+}
+
+.table-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: var(--spacing-md);
+    border-bottom: 1px solid var(--border-color);
+}
+
+.table-header h3 {
+    font-size: 16px;
+    font-weight: 600;
+}
+
+.view-all {
+    font-size: 14px;
+    color: var(--primary-color);
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.table-container {
+    overflow-x: auto;
+}
+
+.admin-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.admin-table th,
+.admin-table td {
+    padding: 12px 16px;
+    text-align: left;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.admin-table th {
+    background-color: #f1f5f9;
+    font-weight: 600;
+    color: var(--text-secondary);
+    font-size: 14px;
+}
+
+.admin-table td {
+    font-size: 14px;
+}
+
+.admin-table tr:last-child td {
+    border-bottom: none;
+}
+
+.admin-table tr:hover td {
+    background-color: #f8fafc;
+}
+
+/* 用户管理部分 */
+.section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: var(--spacing-md);
+}
+
+.section-actions {
+    display: flex;
+    gap: var(--spacing-md);
+    align-items: center;
+}
+
+.search-box {
+    display: flex;
+    align-items: center;
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius);
+    overflow: hidden;
+}
+
+.search-box input {
+    border: none;
+    padding: 8px 12px;
+    width: 250px;
+}
+
+.search-box input:focus {
+    outline: none;
+}
+
+.search-box button {
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+    padding: 8px 12px;
+    cursor: pointer;
+}
+
+/* 分页 */
+.pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: var(--spacing-lg);
+    gap: var(--spacing-xs);
+}
+
+.page-btn {
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid var(--border-color);
+    background-color: white;
+    border-radius: var(--border-radius);
+    cursor: pointer;
+}
+
+.page-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.page-numbers {
+    display: flex;
+    gap: var(--spacing-xs);
+}
+
+.page-number {
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid var(--border-color);
+    background-color: white;
+    border-radius: var(--border-radius);
+    cursor: pointer;
+}
+
+.page-number.active {
+    background-color: var(--primary-color);
+    color: white;
+    border-color: var(--primary-color);
+}
+
+/* 响应式调整 */
+@media (max-width: 992px) {
+    .admin-container {
+        flex-direction: column;
+    }
+    
+    .admin-sidebar {
+        width: 100%;
+        height: auto;
+    }
+    
+    .admin-nav {
+        display: none;
+    }
+    
+    .chart-container,
+    .admin-tables,
+    .stat-cards {
+        grid-template-columns: 1fr;
+    }
+}
