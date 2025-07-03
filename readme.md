@@ -41,6 +41,23 @@ FUCKCHAT 是一个基于 Python 和 Web 技术开发的局域网聊天应用，�
 pip install -r requirements.txt
 ```
 
+### 使用Conda部署
+
+如果你使用Anaconda或Miniconda管理Python环境，可以按以下步骤部署：
+
+```bash
+# 创建新的conda环境
+conda create -n fuckchat python=3.9
+
+# 激活环境
+conda activate fuckchat
+
+# 安装依赖
+pip install -r requirements.txt
+
+# 完成后的操作与常规部署相同
+```
+
 ### 初始化数据库
 
 ```bash
@@ -187,4 +204,4 @@ MIT License
 
 ## 使用指南
 
-详细的使用说明请查看 [usage.md](md/usage.md) 文件,或者访问[我的博客](https://ilovefirefly.club/xiangmu/fuckchat/)获取更多支持。
+详细的使用说明请查看 [usage.md](md/usage.md) 文件。
