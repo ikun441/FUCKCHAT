@@ -45,7 +45,7 @@ pip install -r requirements.txt
 
 ```bash
 python scripts/init_db.py
-python scripts/update_bd.py
+python scripts/update_db.py
 ```
 
 ### 启动服务
