@@ -204,4 +204,4 @@ MIT License
 
 ## 使用指南
 
-详细的使用说明请查看 [usage.md](md/usage.md) 文件。
+详细的使用说明请查看 [usage.md](md/usage.md) 文件，或者访问[我的博客](https://ilovefirefly.club)。
