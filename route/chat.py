@@ -166,14 +166,19 @@ def get_groups():
 @auth_required
 def create_group():
     """创建新群组"""
-    data = request.get_json()
+    if request.content_type and request.content_type.startswith('multipart/form-data'):
+        # 兼容FormData表单提交
+        name = request.form.get('name')
+        description = request.form.get('description', '')
+    else:
+        # 默认JSON
+        data = request.get_json()
+        name = data.get('name') if data else None
+        description = data.get('description', '') if data else ''
     
     # 检查必要字段
-    if not data or not data.get('name'):
+    if not name:
         return jsonify({'message': '缺少必要参数', 'success': False}), 400
-    
-    name = data.get('name')
-    description = data.get('description', '')
     
     try:
         conn = sqlite3.connect('fuckchat.db')
