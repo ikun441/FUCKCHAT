@@ -87,8 +87,10 @@ async function handleRegister(event) {
         });
         
         const data = await response.json();
+        // v2 响应格式：业务数据位于 data 字段
+        const result = unwrapResponse(data);
         
-        if (data.success) {
+        if (result.ok) {
             showToast('注册成功，即将跳转到登录页面...', 'success');
             
             // 延迟跳转到登录页面
@@ -101,7 +103,7 @@ async function handleRegister(event) {
             submitBtn.disabled = false;
             
             // 显示错误信息
-            showAuthError(data.message || '注册失败，请稍后再试');
+            showAuthError(result.message || '注册失败，请稍后再试');
         }
     } catch (error) {
         console.error('注册失败:', error);
@@ -195,9 +197,10 @@ async function checkUsernameAvailability(username) {
     try {
         const response = await fetch(`/api/auth/check-username?username=${encodeURIComponent(username)}`);
         const data = await response.json();
+        const result = unwrapResponse(data);
         
         const usernameInput = document.getElementById('username');
-        if (data.available) {
+        if (result.data.available) {
             usernameInput.classList.remove('error');
             usernameInput.classList.add('valid');
         } else {

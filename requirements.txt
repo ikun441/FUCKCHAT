@@ -1,10 +1,15 @@
-Flask==2.3.3
-Flask-SocketIO==5.3.4
-Flask-Cors==4.0.0
-PyJWT==2.8.0
-python-socketio==5.8.0
-eventlet==0.33.3
-bcrypt==4.0.1
-PyYAML==6.0.1
-python-dotenv==1.0.0
-pathlib==1.0.1
+# FUCKCHAT 依赖
+#
+# 重构说明（v2.0.0）：
+#   - 移除 pathlib==1.0.1（Python 3.4+ 已内置 pathlib，PyPI 上该包已废弃）
+#   - 移除 eventlet（实际未被使用，run.py 采用 async_mode='threading'）
+#   - 锁定到兼容的版本区间，避免上游破坏性更新
+
+Flask>=2.3.3,<3.0.0
+Flask-SocketIO>=5.3.4,<6.0.0
+Flask-Cors>=4.0.0,<5.0.0
+PyJWT>=2.8.0,<3.0.0
+python-socketio>=5.8.0,<6.0.0
+bcrypt>=4.0.1,<5.0.0
+PyYAML>=6.0.1,<7.0.0
+python-dotenv>=1.0.0,<2.0.0

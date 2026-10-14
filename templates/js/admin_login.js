@@ -54,7 +54,14 @@ function handleAdminLogin(event) {
         submitBtn.disabled = false;
         submitBtn.textContent = originalText;
         
-        if (data.success) {
+        // 独立管理后台（run_admin.py）的响应为扁平结构：
+        //   { success, message, redirect }
+        // 兼容两种结构，统一取用。
+        const body = (data && data.data && typeof data.data === 'object')
+            ? Object.assign({}, data, data.data)
+            : (data || {});
+        
+        if (body.success) {
             // 登录成功，显示成功提示
             showToast('管理员登录成功', 'success');
             
@@ -64,13 +71,13 @@ function handleAdminLogin(event) {
             
             // 跳转到管理控制台
             setTimeout(() => {
-                const redirectUrl = data.redirect || '/admin/dashboard';
+                const redirectUrl = body.redirect || '/admin/dashboard';
                 console.log('准备跳转到:', redirectUrl);
                 window.location.href = redirectUrl;
             }, 1000);
         } else {
             // 登录失败，显示错误信息
-            showToast(data.message || '管理员登录失败，请检查账号和密码', 'error');
+            showToast(body.message || '管理员登录失败，请检查账号和密码', 'error');
         }
     })
     .catch(error => {

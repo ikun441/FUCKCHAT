@@ -380,12 +380,13 @@ async function updateProfileToServer(profileData) {
         });
         
         const data = await response.json();
+        const result = unwrapResponse(data);
         
         if (!response.ok) {
-            throw new Error(data.message || '更新失败');
+            throw new Error(result.message || '更新失败');
         }
         
-        return data.success;
+        return result.ok;
     } catch (error) {
         console.error('更新个人资料失败:', error);
         throw error;
@@ -418,12 +419,13 @@ async function updatePasswordToServer(currentPassword, newPassword) {
         });
         
         const data = await response.json();
+        const result = unwrapResponse(data);
         
         if (!response.ok) {
-            throw new Error(data.message || '更新密码失败');
+            throw new Error(result.message || '更新密码失败');
         }
         
-        return data.success;
+        return result.ok;
     } catch (error) {
         console.error('更新密码失败:', error);
         throw error;
@@ -479,12 +481,13 @@ async function deleteAccountFromServer(password) {
         });
         
         const data = await response.json();
+        const result = unwrapResponse(data);
         
         if (!response.ok) {
-            throw new Error(data.message || '注销账号失败');
+            throw new Error(result.message || '注销账号失败');
         }
         
-        return data.success;
+        return result.ok;
     } catch (error) {
         console.error('注销账号失败:', error);
         throw error;
@@ -558,17 +561,18 @@ async function uploadAvatarToServer(file) {
         });
         
         const data = await response.json();
+        const result = unwrapResponse(data);
         
         if (!response.ok) {
-            throw new Error(data.message || `上传失败 (${response.status})`);
+            throw new Error(result.message || `上传失败 (${response.status})`);
         }
         
-        if (data.success) {
+        if (result.ok) {
             // 获取当前用户信息
             const userInfo = getUserFromStorage();
             if (userInfo) {
                 // 更新头像数据
-                userInfo.avatar = data.avatar_url || data.avatar;
+                userInfo.avatar = result.data.avatar || result.data.avatar_url;
                 
                 // 保存到本地存储
                 localStorage.setItem('fuckchat_user', JSON.stringify(userInfo));
@@ -580,7 +584,7 @@ async function uploadAvatarToServer(file) {
                 showToast('头像已更新', 'success');
             }
         } else {
-            throw new Error(data.message || '上传失败');
+            throw new Error(result.message || '上传失败');
         }
     } catch (error) {
         console.error('上传头像失败:', error);

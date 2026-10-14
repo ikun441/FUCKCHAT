@@ -152,3 +152,153 @@
 2025-05-11 17:21:36,400 - werkzeug - INFO - 127.0.0.1 - - [11/May/2025 17:21:36] "GET /api/admin/users?page=1&per_page=10 HTTP/1.1" 200 -
 2025-05-11 17:21:38,452 - werkzeug - INFO - 127.0.0.1 - - [11/May/2025 17:21:38] "GET /api/admin/groups?page=1&per_page=10 HTTP/1.1" 200 -
 2025-05-11 17:21:38,455 - werkzeug - INFO - 127.0.0.1 - - [11/May/2025 17:21:38] "GET /api/admin/groups?page=1&per_page=10 HTTP/1.1" 200 -
+2026-10-14 14:28:02,073 - FUCKCHAT.factory - INFO - CORS 未启用（默认仅同源访问）
+2026-10-14 14:28:02,073 - FUCKCHAT.db - INFO - 数据库路径: /Users/ikun441/Documents/deepseek-harness/default-workspace/FUCKCHAT/fuckchat.db
+2026-10-14 14:28:02,119 - FUCKCHAT.socket - INFO - WebSocket 事件注册完成
+2026-10-14 14:28:02,119 - FUCKCHAT.factory - INFO - 应用构建完成: FUCKCHAT v2.0.0
+2026-10-14 14:28:02,119 - FUCKCHAT - INFO - ========================================================
+2026-10-14 14:28:02,119 - FUCKCHAT - INFO - FUCKCHAT 服务启动
+2026-10-14 14:28:02,119 - FUCKCHAT - INFO - 监听地址: http://0.0.0.0:5100
+2026-10-14 14:28:02,119 - FUCKCHAT - INFO - 调试模式: 关闭
+2026-10-14 14:28:02,119 - FUCKCHAT - INFO - ========================================================
+2026-10-14 14:28:02,119 - werkzeug - WARNING - Werkzeug appears to be used in a production deployment. Consider switching to a production web server instead.
+2026-10-14 14:28:14,792 - FUCKCHAT.auth - INFO - 用户登录成功: admin
+2026-10-14 14:28:21,902 - FUCKCHAT.auth - INFO - 用户登录成功: admin
+2026-10-14 14:28:22,029 - FUCKCHAT.config - INFO - 配置文件加载成功: /Users/ikun441/Documents/deepseek-harness/default-workspace/FUCKCHAT/config.yaml
+2026-10-14 14:28:27,663 - FUCKCHAT.auth - INFO - 用户登录成功: admin
+2026-10-14 14:28:32,500 - FUCKCHAT.auth - INFO - 用户登录成功: admin
+2026-10-14 14:28:32,764 - FUCKCHAT.auth - INFO - 用户登录成功: user
+2026-10-14 14:28:32,767 - FUCKCHAT.errors - INFO - 业务异常: 缺少认证令牌 (401)
+2026-10-14 14:28:32,768 - FUCKCHAT.errors - INFO - 业务异常: 缺少认证令牌 (401)
+2026-10-14 14:28:32,769 - FUCKCHAT.errors - INFO - 业务异常: 缺少认证令牌 (401)
+2026-10-14 14:28:32,770 - FUCKCHAT.errors - INFO - 业务异常: 缺少认证令牌 (401)
+2026-10-14 14:28:32,770 - FUCKCHAT.security - INFO - 无效令牌: Signature verification failed
+2026-10-14 14:28:32,771 - FUCKCHAT.errors - INFO - 业务异常: 无效的认证令牌 (401)
+2026-10-14 14:28:32,773 - FUCKCHAT.security - WARNING - 用户 user 尝试访问管理员接口
+2026-10-14 14:28:32,773 - FUCKCHAT.errors - INFO - 业务异常: 没有管理员权限 (403)
+2026-10-14 14:28:33,280 - FUCKCHAT.errors - INFO - 业务异常: 密码长度至少 8 个字符 (400)
+2026-10-14 14:28:33,787 - FUCKCHAT.errors - INFO - 业务异常: 密码必须同时包含字母和数字 (400)
+2026-10-14 14:28:34,289 - FUCKCHAT.errors - INFO - 业务异常: 用户名长度不能超过 32 个字符 (400)
+2026-10-14 14:28:34,796 - FUCKCHAT.errors - INFO - 业务异常: 用户名只能包含字母、数字、下划线和连字符，且必须以字母开头 (400)
+2026-10-14 14:28:35,566 - FUCKCHAT.auth - INFO - 新用户注册成功: testuser01 (id=7)
+2026-10-14 14:28:35,570 - FUCKCHAT.errors - INFO - 业务异常: 昵称 长度不能超过 32 个字符 (400)
+2026-10-14 14:28:35,572 - FUCKCHAT.errors - INFO - 业务异常: 昵称 长度不能超过 32 个字符 (400)
+2026-10-14 14:28:35,574 - FUCKCHAT.auth - INFO - 用户 2 更新资料: ['nickname']
+2026-10-14 14:28:35,576 - FUCKCHAT.errors - INFO - 业务异常: 邮箱格式不正确 (400)
+2026-10-14 14:28:35,577 - FUCKCHAT.errors - INFO - 业务异常: limit 必须是整数 (400)
+2026-10-14 14:28:35,578 - FUCKCHAT.errors - INFO - 业务异常: target_id 必须是整数 (400)
+2026-10-14 14:28:35,581 - FUCKCHAT.errors - INFO - 业务异常: type 只能是 user 或 group (400)
+2026-10-14 14:28:35,583 - FUCKCHAT.errors - INFO - 业务异常: limit 不能大于 200 (400)
+2026-10-14 14:28:35,588 - FUCKCHAT.errors - INFO - 业务异常: chat_id 格式不正确，应为 user_<id> 或 group_<id> (400)
+2026-10-14 14:28:35,589 - FUCKCHAT.errors - INFO - 业务异常: 请求体必须是 JSON 对象 (400)
+2026-10-14 14:28:35,614 - FUCKCHAT.security - WARNING - 用户 user 尝试访问管理员接口
+2026-10-14 14:28:35,615 - FUCKCHAT.errors - INFO - 业务异常: 没有管理员权限 (403)
+2026-10-14 14:28:35,617 - FUCKCHAT.errors - INFO - 业务异常: 消息不存在 (404)
+2026-10-14 14:28:35,619 - FUCKCHAT.errors - INFO - 业务异常: 消息不存在 (404)
+2026-10-14 14:28:35,620 - FUCKCHAT.misc - INFO - 用户 2 清空会话 user_2 (0 条)
+2026-10-14 14:28:35,622 - FUCKCHAT.errors - INFO - 业务异常: 已有待处理的好友申请 (409)
+2026-10-14 14:28:35,634 - FUCKCHAT.errors - INFO - 业务异常: 目录名只能包含字母、数字、下划线和连字符 (400)
+2026-10-14 14:28:35,645 - FUCKCHAT.errors - INFO - 业务异常: 转账金额 不能小于 1 (400)
+2026-10-14 14:28:35,648 - FUCKCHAT.errors - INFO - 业务异常: 不能给自己转账 (400)
+2026-10-14 14:28:35,909 - FUCKCHAT.auth - INFO - 新用户注册成功: txuser86539 (id=8)
+2026-10-14 14:28:36,167 - FUCKCHAT.auth - INFO - 用户登录成功: txuser86539
+2026-10-14 14:28:36,171 - FUCKCHAT.kunbi - INFO - 转账: 8 -> 1, 金额 50
+2026-10-14 14:28:36,174 - FUCKCHAT.errors - INFO - 业务异常: 转账金额 不能大于 100000 (400)
+2026-10-14 14:28:36,184 - FUCKCHAT.errors - INFO - 业务异常: 缺少认证令牌 (401)
+2026-10-14 14:28:44,880 - FUCKCHAT.auth - INFO - 用户登录成功: admin
+2026-10-14 14:28:45,184 - FUCKCHAT.auth - INFO - 用户登录成功: user
+2026-10-14 14:28:45,186 - FUCKCHAT.errors - INFO - 业务异常: 缺少认证令牌 (401)
+2026-10-14 14:28:45,187 - FUCKCHAT.errors - INFO - 业务异常: 缺少认证令牌 (401)
+2026-10-14 14:28:45,188 - FUCKCHAT.errors - INFO - 业务异常: 缺少认证令牌 (401)
+2026-10-14 14:28:45,189 - FUCKCHAT.errors - INFO - 业务异常: 缺少认证令牌 (401)
+2026-10-14 14:28:45,190 - FUCKCHAT.security - INFO - 无效令牌: Signature verification failed
+2026-10-14 14:28:45,190 - FUCKCHAT.errors - INFO - 业务异常: 无效的认证令牌 (401)
+2026-10-14 14:28:45,191 - FUCKCHAT.security - WARNING - 用户 user 尝试访问管理员接口
+2026-10-14 14:28:45,191 - FUCKCHAT.errors - INFO - 业务异常: 没有管理员权限 (403)
+2026-10-14 14:28:45,698 - FUCKCHAT.errors - INFO - 业务异常: 密码长度至少 8 个字符 (400)
+2026-10-14 14:28:46,204 - FUCKCHAT.errors - INFO - 业务异常: 密码必须同时包含字母和数字 (400)
+2026-10-14 14:28:46,707 - FUCKCHAT.errors - INFO - 业务异常: 用户名长度不能超过 32 个字符 (400)
+2026-10-14 14:28:47,215 - FUCKCHAT.errors - INFO - 业务异常: 用户名只能包含字母、数字、下划线和连字符，且必须以字母开头 (400)
+2026-10-14 14:28:47,724 - FUCKCHAT.errors - INFO - 业务异常: 用户名已存在 (409)
+2026-10-14 14:28:47,727 - FUCKCHAT.errors - INFO - 业务异常: 昵称 长度不能超过 32 个字符 (400)
+2026-10-14 14:28:47,730 - FUCKCHAT.errors - INFO - 业务异常: 昵称 长度不能超过 32 个字符 (400)
+2026-10-14 14:28:47,733 - FUCKCHAT.auth - INFO - 用户 2 更新资料: ['nickname']
+2026-10-14 14:28:47,735 - FUCKCHAT.errors - INFO - 业务异常: 邮箱格式不正确 (400)
+2026-10-14 14:28:47,737 - FUCKCHAT.errors - INFO - 业务异常: limit 必须是整数 (400)
+2026-10-14 14:28:47,739 - FUCKCHAT.errors - INFO - 业务异常: target_id 必须是整数 (400)
+2026-10-14 14:28:47,741 - FUCKCHAT.errors - INFO - 业务异常: type 只能是 user 或 group (400)
+2026-10-14 14:28:47,742 - FUCKCHAT.errors - INFO - 业务异常: limit 不能大于 200 (400)
+2026-10-14 14:28:47,749 - FUCKCHAT.errors - INFO - 业务异常: chat_id 格式不正确，应为 user_<id> 或 group_<id> (400)
+2026-10-14 14:28:47,750 - FUCKCHAT.errors - INFO - 业务异常: 请求体必须是 JSON 对象 (400)
+2026-10-14 14:28:47,772 - FUCKCHAT.security - WARNING - 用户 user 尝试访问管理员接口
+2026-10-14 14:28:47,772 - FUCKCHAT.errors - INFO - 业务异常: 没有管理员权限 (403)
+2026-10-14 14:28:47,773 - FUCKCHAT.errors - INFO - 业务异常: 消息不存在 (404)
+2026-10-14 14:28:47,775 - FUCKCHAT.errors - INFO - 业务异常: 消息不存在 (404)
+2026-10-14 14:28:47,776 - FUCKCHAT.misc - INFO - 用户 2 清空会话 user_2 (0 条)
+2026-10-14 14:28:47,778 - FUCKCHAT.errors - INFO - 业务异常: 已有待处理的好友申请 (409)
+2026-10-14 14:28:47,789 - FUCKCHAT.errors - INFO - 业务异常: 目录名只能包含字母、数字、下划线和连字符 (400)
+2026-10-14 14:28:47,800 - FUCKCHAT.errors - INFO - 业务异常: 转账金额 不能小于 1 (400)
+2026-10-14 14:28:47,802 - FUCKCHAT.errors - INFO - 业务异常: 不能给自己转账 (400)
+2026-10-14 14:28:48,060 - FUCKCHAT.auth - INFO - 新用户注册成功: txuser41428 (id=9)
+2026-10-14 14:28:48,330 - FUCKCHAT.auth - INFO - 用户登录成功: txuser41428
+2026-10-14 14:28:48,334 - FUCKCHAT.kunbi - INFO - 转账: 9 -> 1, 金额 50
+2026-10-14 14:28:48,337 - FUCKCHAT.errors - INFO - 业务异常: 转账金额 不能大于 100000 (400)
+2026-10-14 14:28:48,345 - FUCKCHAT.errors - INFO - 业务异常: 缺少认证令牌 (401)
+2026-10-14 14:28:48,605 - FUCKCHAT.auth - INFO - 用户登录成功: admin
+2026-10-14 14:28:54,610 - FUCKCHAT.factory - INFO - CORS 未启用（默认仅同源访问）
+2026-10-14 14:28:54,610 - FUCKCHAT.db - INFO - 数据库路径: /Users/ikun441/Documents/deepseek-harness/default-workspace/FUCKCHAT/fuckchat.db
+2026-10-14 14:28:54,647 - FUCKCHAT.socket - INFO - WebSocket 事件注册完成
+2026-10-14 14:28:54,647 - FUCKCHAT.factory - INFO - 应用构建完成: FUCKCHAT v2.0.0
+2026-10-14 14:28:54,910 - FUCKCHAT.auth - INFO - 用户登录成功: admin
+2026-10-14 14:29:00,604 - FUCKCHAT.auth - INFO - 用户登录成功: user
+2026-10-14 14:29:27,672 - FUCKCHAT.factory - INFO - CORS 未启用（默认仅同源访问）
+2026-10-14 14:29:27,673 - FUCKCHAT.db - INFO - 数据库路径: /Users/ikun441/Documents/deepseek-harness/default-workspace/FUCKCHAT/fuckchat.db
+2026-10-14 14:29:27,714 - FUCKCHAT.socket - INFO - WebSocket 事件注册完成
+2026-10-14 14:29:27,714 - FUCKCHAT.factory - INFO - 应用构建完成: FUCKCHAT v2.0.0
+2026-10-14 14:29:27,715 - FUCKCHAT - INFO - ========================================================
+2026-10-14 14:29:27,715 - FUCKCHAT - INFO - FUCKCHAT 服务启动
+2026-10-14 14:29:27,715 - FUCKCHAT - INFO - 监听地址: http://0.0.0.0:5100
+2026-10-14 14:29:27,715 - FUCKCHAT - INFO - 调试模式: 关闭
+2026-10-14 14:29:27,715 - FUCKCHAT - INFO - ========================================================
+2026-10-14 14:29:27,715 - werkzeug - WARNING - Werkzeug appears to be used in a production deployment. Consider switching to a production web server instead.
+2026-10-14 14:29:39,910 - FUCKCHAT.auth - INFO - 用户登录成功: admin
+2026-10-14 14:29:40,167 - FUCKCHAT.auth - INFO - 用户登录成功: user
+2026-10-14 14:29:40,169 - FUCKCHAT.errors - INFO - 业务异常: 缺少认证令牌 (401)
+2026-10-14 14:29:40,176 - FUCKCHAT.errors - INFO - 业务异常: 缺少认证令牌 (401)
+2026-10-14 14:29:40,177 - FUCKCHAT.errors - INFO - 业务异常: 缺少认证令牌 (401)
+2026-10-14 14:29:40,178 - FUCKCHAT.errors - INFO - 业务异常: 缺少认证令牌 (401)
+2026-10-14 14:29:40,178 - FUCKCHAT.security - INFO - 无效令牌: Signature verification failed
+2026-10-14 14:29:40,178 - FUCKCHAT.errors - INFO - 业务异常: 无效的认证令牌 (401)
+2026-10-14 14:29:40,181 - FUCKCHAT.security - WARNING - 用户 user 尝试访问管理员接口
+2026-10-14 14:29:40,181 - FUCKCHAT.errors - INFO - 业务异常: 没有管理员权限 (403)
+2026-10-14 14:29:40,695 - FUCKCHAT.config - INFO - 配置文件加载成功: /Users/ikun441/Documents/deepseek-harness/default-workspace/FUCKCHAT/config.yaml
+2026-10-14 14:29:40,695 - FUCKCHAT.errors - INFO - 业务异常: 密码长度至少 8 个字符 (400)
+2026-10-14 14:29:41,198 - FUCKCHAT.errors - INFO - 业务异常: 密码必须同时包含字母和数字 (400)
+2026-10-14 14:29:41,705 - FUCKCHAT.errors - INFO - 业务异常: 用户名长度不能超过 32 个字符 (400)
+2026-10-14 14:29:42,208 - FUCKCHAT.errors - INFO - 业务异常: 用户名只能包含字母、数字、下划线和连字符，且必须以字母开头 (400)
+2026-10-14 14:29:43,047 - FUCKCHAT.auth - INFO - 新用户注册成功: testuser01 (id=3)
+2026-10-14 14:29:43,052 - FUCKCHAT.errors - INFO - 业务异常: 昵称 长度不能超过 32 个字符 (400)
+2026-10-14 14:29:43,053 - FUCKCHAT.errors - INFO - 业务异常: 昵称 长度不能超过 32 个字符 (400)
+2026-10-14 14:29:43,055 - FUCKCHAT.auth - INFO - 用户 2 更新资料: ['nickname']
+2026-10-14 14:29:43,057 - FUCKCHAT.errors - INFO - 业务异常: 邮箱格式不正确 (400)
+2026-10-14 14:29:43,059 - FUCKCHAT.errors - INFO - 业务异常: limit 必须是整数 (400)
+2026-10-14 14:29:43,060 - FUCKCHAT.errors - INFO - 业务异常: target_id 必须是整数 (400)
+2026-10-14 14:29:43,061 - FUCKCHAT.errors - INFO - 业务异常: type 只能是 user 或 group (400)
+2026-10-14 14:29:43,063 - FUCKCHAT.errors - INFO - 业务异常: limit 不能大于 200 (400)
+2026-10-14 14:29:43,069 - FUCKCHAT.errors - INFO - 业务异常: chat_id 格式不正确，应为 user_<id> 或 group_<id> (400)
+2026-10-14 14:29:43,069 - FUCKCHAT.errors - INFO - 业务异常: 请求体必须是 JSON 对象 (400)
+2026-10-14 14:29:43,092 - FUCKCHAT.security - WARNING - 用户 user 尝试访问管理员接口
+2026-10-14 14:29:43,093 - FUCKCHAT.errors - INFO - 业务异常: 没有管理员权限 (403)
+2026-10-14 14:29:43,094 - FUCKCHAT.errors - INFO - 业务异常: 消息不存在 (404)
+2026-10-14 14:29:43,096 - FUCKCHAT.errors - INFO - 业务异常: 消息不存在 (404)
+2026-10-14 14:29:43,099 - FUCKCHAT.misc - INFO - 用户 2 清空会话 user_2 (0 条)
+2026-10-14 14:29:43,102 - FUCKCHAT.misc - INFO - 用户 2 向 1 发送好友申请
+2026-10-14 14:29:43,116 - FUCKCHAT.errors - INFO - 业务异常: 目录名只能包含字母、数字、下划线和连字符 (400)
+2026-10-14 14:29:43,127 - FUCKCHAT.errors - INFO - 业务异常: 转账金额 不能小于 1 (400)
+2026-10-14 14:29:43,128 - FUCKCHAT.errors - INFO - 业务异常: 不能给自己转账 (400)
+2026-10-14 14:29:43,402 - FUCKCHAT.auth - INFO - 新用户注册成功: txuser68241 (id=4)
+2026-10-14 14:29:43,671 - FUCKCHAT.auth - INFO - 用户登录成功: txuser68241
+2026-10-14 14:29:43,675 - FUCKCHAT.kunbi - INFO - 转账: 4 -> 1, 金额 50
+2026-10-14 14:29:43,678 - FUCKCHAT.errors - INFO - 业务异常: 转账金额 不能大于 100000 (400)
+2026-10-14 14:29:43,688 - FUCKCHAT.errors - INFO - 业务异常: 缺少认证令牌 (401)
+2026-10-14 14:29:43,943 - FUCKCHAT.auth - INFO - 用户登录成功: admin

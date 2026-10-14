@@ -94,14 +94,16 @@ function loadStatistics() {
         return response.json();
     })
     .then(data => {
-        if (data.success) {
+        const result = unwrapResponse(data);
+        const stats = (result.data.stats) || result.data;
+        if (result.ok) {
             // 更新统计卡片
-            document.getElementById('total-users').textContent = data.stats.user_count;
-            document.getElementById('total-groups').textContent = data.stats.group_count;
-            document.getElementById('online-users-count').textContent = data.stats.online_user_count;
+            document.getElementById('total-users').textContent = stats.user_count;
+            document.getElementById('total-groups').textContent = stats.group_count;
+            document.getElementById('online-users-count').textContent = stats.online_user_count;
             
             // 计算总消息数
-            const totalMessages = data.stats.today_message_count || 0;
+            const totalMessages = stats.today_message_count || 0;
             document.getElementById('total-messages').textContent = totalMessages;
         }
     })
@@ -178,11 +180,12 @@ function loadRecentUsers() {
         return response.json();
     })
     .then(data => {
-        if (data.success) {
+        const result = unwrapResponse(data);
+        if (result.ok) {
             const tbody = document.getElementById('recent-users-table');
             tbody.innerHTML = '';
             
-            data.users.forEach(user => {
+            (result.data.users || []).forEach(user => {
                 const row = document.createElement('tr');
                 
                 // 格式化日期
@@ -215,11 +218,12 @@ function loadSystemLogs() {
         return response.json();
     })
     .then(data => {
-        if (data.success) {
+        const result = unwrapResponse(data);
+        if (result.ok) {
             const tbody = document.getElementById('system-logs-table');
             tbody.innerHTML = '';
             
-            data.logs.forEach(log => {
+            (result.data.logs || []).forEach(log => {
                 const row = document.createElement('tr');
                 
                 // 格式化日期
@@ -251,11 +255,12 @@ function loadAllUsers(page = 1) {
         return response.json();
     })
     .then(data => {
-        if (data.success) {
+        const result = unwrapResponse(data);
+        if (result.ok) {
             const tbody = document.getElementById('users-table');
             tbody.innerHTML = '';
             
-            data.users.forEach(user => {
+            (result.data.users || []).forEach(user => {
                 const row = document.createElement('tr');
                 
                 // 格式化日期
@@ -318,14 +323,96 @@ function loadAllGroups(page = 1) {
         return response.json();
     })
     .then(data => {
-        if (data.success) {
-            // 实现群组数据显示
-            console.log('群组数据:', data);
+        const result = unwrapResponse(data);
+        if (result.ok) {
+            renderGroupsTable(result.data.groups || []);
         }
     })
     .catch(error => {
         console.error('加载群组数据失败:', error);
         showToast('加载群组数据失败', 'error');
+    });
+}
+
+/**
+ * 渲染群组表格
+ * @param {Array} groups - 群组列表
+ */
+function renderGroupsTable(groups) {
+    const tbody = document.getElementById('groups-table');
+    if (!tbody) {
+        console.error('未找到表格元素: groups-table');
+        return;
+    }
+
+    tbody.innerHTML = '';
+
+    if (!groups || groups.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="8" style="text-align:center;color:#999;">暂无群组数据</td></tr>';
+        return;
+    }
+
+    groups.forEach(group => {
+        const row = document.createElement('tr');
+
+        const createdDate = group.created_at ? new Date(group.created_at) : null;
+        const formattedDate = (createdDate && !isNaN(createdDate))
+            ? createdDate.toLocaleString('zh-CN')
+            : '-';
+
+        const creator = group.creatorNickname || group.creator_nickname || '未知';
+
+        row.innerHTML = `
+            <td><input type="checkbox" class="group-checkbox" data-group-id="${group.id}"></td>
+            <td>${group.id}</td>
+            <td>${group.name || '-'}</td>
+            <td>${creator}</td>
+            <td>${group.memberCount || group.member_count || 0}</td>
+            <td>${formattedDate}</td>
+            <td><span class="status-badge active">正常</span></td>
+            <td class="actions">
+                <button class="action-btn delete-group" data-group-id="${group.id}" title="删除群组">
+                    <i class="fas fa-trash"></i>
+                </button>
+            </td>
+        `;
+
+        tbody.appendChild(row);
+    });
+
+    // 绑定删除按钮
+    tbody.querySelectorAll('.delete-group').forEach(btn => {
+        btn.addEventListener('click', function () {
+            const groupId = this.dataset.groupId;
+            if (confirm(`确定要删除群组 ID ${groupId} 吗？此操作不可恢复。`)) {
+                deleteGroup(groupId);
+            }
+        });
+    });
+}
+
+/**
+ * 删除群组
+ * @param {number|string} groupId
+ */
+function deleteGroup(groupId) {
+    fetch(`/api/admin/groups/${groupId}`, { method: 'DELETE' })
+    .then(response => {
+        if (!response.ok) throw new Error('删除群组失败');
+        return response.json();
+    })
+    .then(data => {
+        const result = unwrapResponse(data);
+        if (result.ok) {
+            showToast('群组删除成功', 'success');
+            loadAllGroups();
+        } else {
+            showToast(result.message || '删除群组失败', 'error');
+        }
+    })
+    .catch(error => {
+        console.error('删除群组失败:', error);
+        showToast('删除群组失败', 'error');
     });
 }
 
@@ -651,11 +738,12 @@ function deleteUser(userId) {
         return response.json();
     })
     .then(data => {
-        if (data.success) {
+        const result = unwrapResponse(data);
+        if (result.ok) {
             showToast('用户删除成功', 'success');
             loadAllUsers();
         } else {
-            showToast(data.message, 'error');
+            showToast(result.message, 'error');
         }
     })
     .catch(error => {
@@ -701,7 +789,8 @@ function loadChats(type = 'private') {
         return response.json();
     })
     .then(data => {
-        if (data.success) {
+        const result = unwrapResponse(data);
+        if (result.ok) {
             const tableId = type === 'private' ? 'private-chats-table' : 'group-chats-table';
             const tbody = document.getElementById(tableId);
             if (!tbody) {
@@ -711,7 +800,7 @@ function loadChats(type = 'private') {
             
             tbody.innerHTML = '';
             
-            data.messages.forEach(message => {
+            (result.data.messages || []).forEach(message => {
                 const row = document.createElement('tr');
                 
                 // 格式化日期
@@ -794,7 +883,8 @@ function loadReportedMessages() {
         return response.json();
     })
     .then(data => {
-        if (data.success) {
+        const result = unwrapResponse(data);
+        if (result.ok) {
             const tbody = document.getElementById('reported-messages-table');
             if (!tbody) {
                 console.error('未找到表格元素: reported-messages-table');
@@ -803,7 +893,7 @@ function loadReportedMessages() {
             
             tbody.innerHTML = '';
             
-            data.reports.forEach(report => {
+            (result.data.reports || []).forEach(report => {
                 const row = document.createElement('tr');
                 
                 // 格式化日期
@@ -866,11 +956,12 @@ function addUser(userData) {
         return response.json();
     })
     .then(data => {
-        if (data.success) {
+        const result = unwrapResponse(data);
+        if (result.ok) {
             showToast('用户添加成功', 'success');
             loadAllUsers();
         } else {
-            showToast(data.message || '添加用户失败', 'error');
+            showToast(result.message || '添加用户失败', 'error');
         }
     })
     .catch(error => {
@@ -889,11 +980,13 @@ function loadDatabaseInfo() {
         return response.json();
     })
     .then(data => {
-        if (data.success) {
-            document.getElementById('db-size').textContent = data.size;
-            document.getElementById('table-count').textContent = data.table_count;
-            document.getElementById('last-backup').textContent = data.last_backup || '无备份';
-            document.getElementById('db-status').textContent = data.status;
+        const result = unwrapResponse(data);
+        const info = result.data;
+        if (result.ok) {
+            document.getElementById('db-size').textContent = info.sizeHuman || info.size;
+            document.getElementById('table-count').textContent = info.table_count;
+            document.getElementById('last-backup').textContent = info.last_backup || '无备份';
+            document.getElementById('db-status').textContent = info.status || 'ok';
         }
     })
     .catch(error => {
@@ -912,7 +1005,8 @@ function loadDatabaseTables() {
         return response.json();
     })
     .then(data => {
-        if (data.success) {
+        const result = unwrapResponse(data);
+        if (result.ok) {
             const tbody = document.getElementById('tables-list');
             if (!tbody) {
                 console.error('未找到表格元素: tables-list');
@@ -963,7 +1057,8 @@ function loadDatabaseBackups() {
         return response.json();
     })
     .then(data => {
-        if (data.success) {
+        const result = unwrapResponse(data);
+        if (result.ok) {
             const tbody = document.getElementById('backups-list');
             if (!tbody) {
                 console.error('未找到表格元素: backups-list');
@@ -972,7 +1067,7 @@ function loadDatabaseBackups() {
             
             tbody.innerHTML = '';
             
-            data.backups.forEach(backup => {
+            (result.data.backups || []).forEach(backup => {
                 const row = document.createElement('tr');
                 
                 // 格式化日期
@@ -1019,7 +1114,8 @@ function backupDatabase() {
         return response.json();
     })
     .then(data => {
-        if (data.success) {
+        const result = unwrapResponse(data);
+        if (result.ok) {
             showToast('数据库备份成功', 'success');
             loadDatabaseBackups();
             loadDatabaseInfo();
@@ -1045,11 +1141,12 @@ function optimizeDatabase() {
         return response.json();
     })
     .then(data => {
-        if (data.success) {
+        const result = unwrapResponse(data);
+        if (result.ok) {
             showToast('数据库优化成功', 'success');
             loadDatabaseInfo();
         } else {
-            showToast(data.message || '数据库优化失败', 'error');
+            showToast(result.message || '数据库优化失败', 'error');
         }
     })
     .catch(error => {
@@ -1068,7 +1165,8 @@ function loadNotifications() {
         return response.json();
     })
     .then(data => {
-        if (data.success) {
+        const result = unwrapResponse(data);
+        if (result.ok) {
             const tbody = document.getElementById('notifications-list');
             if (!tbody) {
                 console.error('未找到表格元素: notifications-list');
@@ -1077,7 +1175,7 @@ function loadNotifications() {
             
             tbody.innerHTML = '';
             
-            data.notifications.forEach(notification => {
+            (result.data.notifications || []).forEach(notification => {
                 const row = document.createElement('tr');
                 
                 // 格式化日期
@@ -1124,7 +1222,9 @@ function loadNotificationStats() {
         return response.json();
     })
     .then(data => {
-        if (data.success) {
+        const result = unwrapResponse(data);
+        const nstats = result.data;
+        if (result.ok) {
             if (!document.getElementById('notification-stats-chart') || !document.getElementById('notification-read-chart')) {
                 console.error('未找到图表元素');
                 return;
@@ -1135,10 +1235,10 @@ function loadNotificationStats() {
             new Chart(statsCtx, {
                 type: 'bar',
                 data: {
-                    labels: data.labels,
+                    labels: nstats.labels || ['已读', '未读'],
                     datasets: [{
                         label: '通知数量',
-                        data: data.counts,
+                        data: nstats.counts || [nstats.read_count || 0, nstats.unread_count || 0],
                         backgroundColor: '#4CAF50'
                     }]
                 },
@@ -1159,7 +1259,7 @@ function loadNotificationStats() {
                 data: {
                     labels: ['已读', '未读'],
                     datasets: [{
-                        data: [data.read_count, data.total_count - data.read_count],
+                        data: [nstats.read_count || 0, nstats.unread_count || 0],
                         backgroundColor: [
                             '#4CAF50',
                             '#FF5722'
@@ -1219,10 +1319,11 @@ function saveSettings() {
         return response.json();
     })
     .then(data => {
-        if (data.success) {
+        const result = unwrapResponse(data);
+        if (result.ok) {
             showToast('设置保存成功', 'success');
         } else {
-            showToast(data.message || '保存设置失败', 'error');
+            showToast(result.message || '保存设置失败', 'error');
         }
     })
     .catch(error => {
