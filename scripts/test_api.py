@@ -384,6 +384,87 @@ def main():
     )
 
     # ------------------------------------------------------------------
+    section("9. 前端兼容层（v1 扁平字段 vs v2 data 嵌套）")
+    # ------------------------------------------------------------------
+    status, body = request(
+        "POST", "/api/auth/login", body={"username": "admin", "password": "admin123"}
+    )
+    check(
+        "登录响应同时提供顶层 token（v1）",
+        isinstance(body, dict) and bool(body.get("token")),
+        f"body keys={list(body.keys())[:10] if isinstance(body, dict) else body}",
+    )
+    check(
+        "登录响应同时提供 data.token（v2）",
+        isinstance(body, dict) and bool(body.get("data", {}).get("token")),
+        "",
+    )
+    check(
+        "两种格式的 token 一致",
+        isinstance(body, dict) and body.get("token") == body.get("data", {}).get("token"),
+        "",
+    )
+    check(
+        "登录响应同时提供顶层 user（v1 前端读取）",
+        isinstance(body, dict) and "user" in body,
+        "",
+    )
+
+    # 旧前端直接读取的列表字段必须在顶层可见
+    legacy_paths = [
+        ("/api/chat/users", "users"),
+        ("/api/chat/contacts", "contacts"),
+        ("/api/chat/groups", "groups"),
+        ("/api/kunbi/transactions", "transactions"),
+        ("/api/notifications", "notifications"),
+        ("/api/admin/users", "users"),
+        ("/api/admin/groups", "groups"),
+        ("/api/admin/logs", "logs"),
+        ("/api/admin/notifications", "notifications"),
+    ]
+    for path, field in legacy_paths:
+        token = admin_token if path.startswith("/api/admin") else user_token
+        status, body = request("GET", path, token=token)
+        check(
+            f"{path} 顶层提供 {field}（v1 兼容）",
+            isinstance(body, dict) and field in body,
+            f"status={status}",
+        )
+
+    # 聊天记录：chat.js 读 data.messages
+    status, body = request("GET", "/api/chat/history?chat_id=user_2", token=admin_token)
+    check(
+        "/api/chat/history 顶层提供 messages（v1 兼容）",
+        isinstance(body, dict) and "messages" in body,
+        f"status={status}",
+    )
+
+    # 分页结构仍为标准 v2 格式
+    status, body = request("GET", "/api/admin/users", token=admin_token)
+    check(
+        "分页响应保留 v2 的 items/pagination",
+        isinstance(body, dict) and "items" in body and "pagination" in body,
+        f"keys={list(body.keys()) if isinstance(body, dict) else body}",
+    )
+    check(
+        "分页 pagination 含 total/page/page_size",
+        isinstance(body, dict)
+        and {"total", "page", "page_size"} <= set(body.get("pagination", {})),
+        "",
+    )
+
+    # 保留键不被 data 覆盖
+    status, body = request("GET", "/api/kunbi/balance", token=user_token)
+    check(
+        "兼容层不覆盖 success/message 等保留键",
+        isinstance(body, dict)
+        and body.get("success") is True
+        and isinstance(body.get("message"), str)
+        and "data" in body,
+        "",
+    )
+
+    # ------------------------------------------------------------------
     section("测试结果汇总")
     # ------------------------------------------------------------------
     total = len(PASSED) + len(FAILED)

@@ -266,7 +266,7 @@ def list_my_notifications():
     unread = db.query_scalar(
         "SELECT COUNT(*) FROM notifications WHERE user_id = ? AND is_read = 0", (g.user_id,), 0
     )
-    return paginated(items, total, page, page_size, unread=unread)
+    return paginated(items, total, page, page_size, unread=unread, notifications=items)
 
 
 @misc_bp.route("/notifications/read", methods=["POST"])
@@ -532,7 +532,7 @@ def search_messages():
         }
         for row in rows
     ]
-    return paginated(items, total, page, page_size)
+    return paginated(items, total, page, page_size, messages=items)
 
 
 # ---------------------------------------------------------------------------

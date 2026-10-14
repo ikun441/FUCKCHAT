@@ -3,10 +3,23 @@
 """
 FUCKCHAT - 统一响应格式与业务异常
 
-所有接口统一返回 {success, ...} 结构，避免各个路由各写一套。
+所有接口统一返回 {success, message, data} 结构，避免各个路由各写一套。
+
+关于兼容层：
+    v1 的前端（templates/js/*.js）直接读取响应顶层字段，例如
+    `data.token`、`data.users`、`data.messages`。v2 把数据规整到 `data`
+    之后，这些读取会全部失效。
+
+    为了不改动 14 万字节的前端代码，这里在响应顶层同时展开一份
+    `data` 内容作为兼容别名。即：
+
+        {"success": true, "message": "...", "data": {...}, "token": "...", ...}
+
+    这样两代前端都能正常工作。该行为可通过配置
+    `server.legacy_response_aliases` 关闭（设为 false 即为纯 v2 格式）。
 """
 
-from flask import jsonify
+from flask import current_app, jsonify
 
 
 class ApiError(Exception):
@@ -32,13 +45,41 @@ def _default_code(status_code):
     }.get(status_code, "ERROR")
 
 
-def success(data=None, message="操作成功", status_code=200, **extra):
-    """构造成功响应。"""
+def _legacy_aliases_enabled():
+    """是否在顶层展开 data 的字段（v1 前端兼容）。"""
+    try:
+        conf = current_app.config.get("FUCKCHAT_CONFIG")
+        if conf is None:
+            return True
+        return bool(conf.section("server").get("legacy_response_aliases", True))
+    except RuntimeError:
+        # 脱离应用上下文调用时，按默认开启处理
+        return True
+
+
+# 这些键不允许被 data 覆盖，否则会破坏响应契约
+_RESERVED_KEYS = {"success", "message", "code", "data", "items", "pagination"}
+
+
+def _build_payload(data, message, extra):
+    """组装响应体，包含兼容别名。"""
     payload = {"success": True, "message": message}
     if data is not None:
         payload["data"] = data
     payload.update(extra)
-    return jsonify(payload), status_code
+
+    # 兼容层：把 data 里的键展开到顶层（不覆盖保留键）
+    if _legacy_aliases_enabled() and isinstance(data, dict):
+        for key, value in data.items():
+            if key not in _RESERVED_KEYS and key not in payload:
+                payload[key] = value
+
+    return payload
+
+
+def success(data=None, message="操作成功", status_code=200, **extra):
+    """构造成功响应。"""
+    return jsonify(_build_payload(data, message, extra)), status_code
 
 
 def fail(message="操作失败", status_code=400, code=None, **extra):
@@ -53,7 +94,15 @@ def fail(message="操作失败", status_code=400, code=None, **extra):
 
 
 def paginated(items, total, page, page_size, message="获取成功", **extra):
-    """构造分页响应。"""
+    """
+    构造分页响应。
+
+    同时提供新旧两种形式：
+      - v2: {items, pagination}
+      - v1: 顶层展开 items 中的字段不适用，因此额外提供 data 别名无意义；
+            但保留 `items` 的同时，把调用方通过 **extra 传入的键
+            （如 users/groups/logs）展开到顶层供旧前端读取。
+    """
     payload = {
         "success": True,
         "message": message,
@@ -66,4 +115,12 @@ def paginated(items, total, page, page_size, message="获取成功", **extra):
         },
     }
     payload.update(extra)
+
+    # 兼容层：旧前端调用处常写 data.users / data.logs 等，
+    # 由调用方在 extra 中显式提供（例如 users=items）。
+    if _legacy_aliases_enabled():
+        for key, value in extra.items():
+            if key not in _RESERVED_KEYS and key not in payload:
+                payload[key] = value
+
     return jsonify(payload), 200

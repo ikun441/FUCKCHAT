@@ -135,7 +135,7 @@ def get_all_users():
         }
         for row in rows
     ]
-    return paginated(items, total, page, page_size)
+    return paginated(items, total, page, page_size, users=items)
 
 
 @admin_bp.route("/users/<int:user_id>", methods=["PUT"])
@@ -246,7 +246,7 @@ def get_all_groups():
         }
         for row in rows
     ]
-    return paginated(items, total, page, page_size)
+    return paginated(items, total, page, page_size, groups=items)
 
 
 @admin_bp.route("/groups/<int:group_id>", methods=["DELETE"])
@@ -321,7 +321,7 @@ def get_private_chats():
                 "lastMessageAt": row["last_message_at"],
             }
         )
-    return paginated(items, total, page, page_size, message="获取成功")
+    return paginated(items, total, page, page_size, message="获取成功", privateChats=items)
 
 
 @admin_bp.route("/group-chats", methods=["GET"])
@@ -357,7 +357,7 @@ def get_group_chats():
         }
         for row in rows
     ]
-    return paginated(items, total, page, page_size, message="获取成功")
+    return paginated(items, total, page, page_size, message="获取成功", groupChats=items)
 
 
 @admin_bp.route("/reported-messages", methods=["GET"])
@@ -395,7 +395,7 @@ def get_reported_messages():
         }
         for row in rows
     ]
-    return paginated(items, total, page, page_size, message="获取成功")
+    return paginated(items, total, page, page_size, message="获取成功", reportedMessages=items)
 
 
 # ---------------------------------------------------------------------------
@@ -494,7 +494,7 @@ def list_notifications():
         }
         for row in rows
     ]
-    return paginated(items, total, page, page_size)
+    return paginated(items, total, page, page_size, notifications=items)
 
 
 @admin_bp.route("/notification/stats", methods=["GET"])
@@ -561,7 +561,7 @@ def get_system_logs():
         }
         for row in rows
     ]
-    return paginated(items, total, page, page_size)
+    return paginated(items, total, page, page_size, logs=items)
 
 
 # ---------------------------------------------------------------------------

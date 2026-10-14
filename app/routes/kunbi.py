@@ -160,7 +160,7 @@ def get_transactions():
         }
         for row in rows
     ]
-    return paginated(items, total, page, page_size)
+    return paginated(items, total, page, page_size, transactions=items)
 
 
 # ---------------------------------------------------------------------------

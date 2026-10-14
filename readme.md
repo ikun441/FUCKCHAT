@@ -229,7 +229,7 @@ app/
 python scripts/test_api.py --url http://127.0.0.1:5100
 ```
 
-**测试结果：76 项全部通过**
+**测试结果：93 项全部通过**
 
 覆盖范围：
 1. 健康检查与页面路由（含原 500 的 `/admin` 修复验证）
@@ -240,6 +240,7 @@ python scripts/test_api.py --url http://127.0.0.1:5100
 6. 安全设置（密钥不泄漏、路径穿越被拒）
 7. 业务功能（余额、流水、转账、余额不足拦截、余额精确扣减）
 8. 响应格式一致性（含 404/401 返回 JSON 而非 HTML）
+9. 前端兼容层（v1 扁平字段与 v2 `data` 嵌套的双向可用性、保留键不被覆盖）
 
 另有独立的 WebSocket 与并发领取验证：
 - 断线后在线状态被正确清理（原缺陷为永久停留在线）
@@ -252,6 +253,7 @@ python scripts/test_api.py --url http://127.0.0.1:5100
 ```yaml
 server:
   cors_origins: []          # CORS 白名单，默认不启用跨域
+  legacy_response_aliases: true   # 顶层展开 data 字段，兼容 v1 前端
 
 app:
   secret_key: ""            # 留空自动生成到 .secret_key
@@ -290,7 +292,15 @@ export FUCKCHAT_SECRET_KEY="$(python3 -c 'import secrets;print(secrets.token_url
 
 以下变更影响既有部署，升级前请留意：
 
-1. **响应格式统一**：成功响应数据从顶层字段改为嵌套在 `data` 中，并统一带 `success`/`message`。例如登录返回 `{"success":true,"data":{"token":"...","user":{...}}}`。**前端 JS 需要相应调整取值路径**（当前 `templates/js/` 仍按旧格式读取，属于后续待办）。
+1. **响应格式统一**：成功响应数据规整进 `data`，并统一带 `success`/`message`，
+   例如 `{"success":true,"message":"登录成功","data":{"token":"...","user":{...}}}`。
+
+   > **兼容说明**：为免改动既有前端，响应默认同时**在顶层展开一份 `data` 的字段**，
+   > 即 `{"success":true,"data":{...},"token":"...","user":{...}}`。
+   > 因此 v1 前端（直接读 `data.token` / `data.users`）无需任何改动即可继续工作，
+   > 新代码也可使用规范的 `data.*` 路径。
+   > 若希望获得纯 v2 格式，把 `config.yaml` 中的
+   > `server.legacy_response_aliases` 设为 `false` 即可。
 2. **管理后台独立服务**：`run_admin.py` 的接口改为真实数据，不再返回模拟结构。
 3. **`route/` 目录移除**：如需引用路由，请改从 `app.routes` 导入。
 4. **数据库迁移**：升级后需运行 `python scripts/migrate_db.py`（会新增 `user_logs.detail`、`kunbi_transactions.packet_count` 等字段与索引）。
@@ -310,7 +320,8 @@ python scripts/test_api.py --url http://127.0.0.1:5100   # 回归测试
 
 ### 十、已知待办
 
-- 前端 JS（`templates/js/*.js`）仍按旧的扁平响应格式取值，需适配新的 `data` 嵌套结构。
+- 前端 JS 目前依赖响应兼容层工作；彻底迁移到 `data.*` 取值后，
+  可将 `server.legacy_response_aliases` 置为 `false` 并移除兼容代码。
 - 限速器为进程内存实现，多进程/多机部署需要替换为 Redis。
 - 管理后台的数据库备份/恢复尚未提供 Web 端恢复入口。
 - 尚未引入自动化单元测试框架（当前为端到端脚本验证）。

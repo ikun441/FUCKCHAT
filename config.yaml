@@ -16,6 +16,11 @@ server:
   #   cors_origins: ["http://192.168.1.10:8080"]
   cors_origins: []
 
+  # 响应兼容层：在响应顶层额外展开一份 data 的字段，
+  # 让 v1 前端（直接读 data.token / data.users）无需改动即可工作。
+  # 计划彻底迁移前端后，可设为 false 得到纯净的 v2 响应格式。
+  legacy_response_aliases: true
+
   local_network:
     enabled: true      # 是否启用局域网访问
     domain: ""         # 局域网域名（如有）

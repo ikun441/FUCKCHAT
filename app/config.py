@@ -27,6 +27,8 @@ DEFAULT_CONFIG = {
         "port": 5000,
         "debug": False,
         "cors_origins": [],
+        # 是否在响应顶层展开 data 字段，以兼容 v1 前端读取方式
+        "legacy_response_aliases": True,
         "local_network": {
             "enabled": True,
             "domain": "",
