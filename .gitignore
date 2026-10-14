@@ -1,0 +1,51 @@
+# FUCKCHAT - 忽略规则
+
+# Python
+__pycache__/
+*.py[cod]
+*.so
+.Python
+build/
+dist/
+*.egg-info/
+.eggs/
+
+# 虚拟环境
+fuck/
+venv/
+.venv/
+env/
+
+# 密钥与本地配置
+.secret_key
+.env
+.env.*
+
+# 数据库与备份（含用户隐私数据，不入库）
+*.db
+*.db-wal
+*.db-shm
+*.sqlite
+*.sqlite3
+backups/
+fuckchat_backup_*.db
+db_update.log
+
+# 日志
+*.log
+logs/
+*.log.*
+
+# 用户上传内容
+uploads/*
+!uploads/.gitkeep
+
+# 运行时生成的聊天记录
+src/chat_data/
+json
+
+# 编辑器与系统
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db

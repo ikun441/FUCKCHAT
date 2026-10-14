@@ -1,53 +1,86 @@
 # FUCKCHAT 配置文件
+# 重构版本 v2.0.0
+#
+# 安全说明：
+#   secret_key 留空时会自动生成并写入 .secret_key 文件（已加入 .gitignore），
+#   生产环境请通过环境变量 FUCKCHAT_SECRET_KEY 注入，不要写在本文件里。
 
 # 服务器配置
 server:
-  host: 0.0.0.0  # 服务监听地址，0.0.0.0表示所有网卡
-  port: 5000     # 服务监听端口
-  debug: false    # 调试模式
+  host: 0.0.0.0        # 监听地址，0.0.0.0 表示所有网卡
+  port: 5000           # 监听端口（macOS 上 5000 可能被 AirPlay 占用，可改用 5100）
+  debug: false         # 调试模式，生产环境务必保持 false
+
+  # CORS 允许来源白名单。留空表示不启用跨域（仅同源访问），这是更安全的默认值。
+  # 如需局域网内其他前端调用，填写具体来源，例如:
+  #   cors_origins: ["http://192.168.1.10:8080"]
+  cors_origins: []
+
   local_network:
-    enabled: true  # 是否启用局域网访问
-    domain: 192.168.250.172  # 局域网域名（如有）
-    broadcast: true  # 是否在局域网内广播服务
+    enabled: true      # 是否启用局域网访问
+    domain: ""         # 局域网域名（如有）
+    broadcast: false   # 是否在局域网内广播服务
 
 # 应用配置
 app:
   name: FUCKCHAT
-  secret_key: change_this_to_a_secure_random_string
-  max_content_length: 16777216  # 文件上传大小限制 (16MB)
-  allowed_file_extensions:  # 允许上传的文件类型
+  version: "2.0.0"
+  secret_key: ""       # 留空则自动生成到 .secret_key；也可用 FUCKCHAT_SECRET_KEY 环境变量
+  max_content_length: 16777216   # 上传大小限制 (16MB)
+  token_ttl_hours: 24            # 普通用户令牌有效期
+  admin_token_ttl_hours: 12      # 管理员令牌有效期
+  allowed_file_extensions:       # 允许上传的文件类型
     - jpg
     - jpeg
     - png
     - gif
+    - webp
     - mp3
     - wav
+    - ogg
+    - m4a
 
 # 数据库配置
 database:
   type: sqlite
   path: fuckchat.db
+  timeout: 10.0        # 连接超时（秒）
+  backup_keep: 5       # 保留的备份数量上限
+
+# 安全配置
+security:
+  password_min_length: 8          # 密码最小长度
+  password_max_length: 128        # 密码最大长度（bcrypt 上限 72 字节）
+  username_min_length: 3          # 用户名最小长度
+  username_max_length: 32         # 用户名最大长度
+  nickname_max_length: 32         # 昵称最大长度
+  login_max_attempts: 5           # 连续登录失败几次后锁定
+  login_lockout_seconds: 300      # 锁定时长（秒）
+  rate_limit_window_seconds: 60   # 通用限速窗口
+  rate_limit_max_requests: 120    # 窗口内最大请求数
+  trust_proxy: false              # 是否信任 X-Forwarded-For（有反向代理时才开启）
 
 # 聊天配置
 chat:
-  max_message_length: 1000    # 最大消息长度
-  history_message_count: 100  # 历史消息加载数量
+  max_message_length: 1000     # 最大消息长度
+  history_message_count: 100   # 历史消息加载数量
+  max_page_size: 100           # 分页每页最大条数
   kunbi_redpacket:
-    min_amount: 1             # 最小红包金额
-    max_amount: 10000         # 最大红包金额
-    animation: true           # 是否启用红包动画效果
+    min_amount: 1              # 最小红包金额
+    max_amount: 10000          # 最大红包金额
+    animation: true            # 是否启用红包动画效果
 
 # 用户配置
 user:
-  default_kunbi: 100          # 新用户默认坤币数量
-  avatar_path: src/images/avatars/  # 用户头像存储路径
+  default_kunbi: 100                      # 新用户默认坤币数量
+  avatar_path: uploads/avatars/           # 用户头像存储路径
 
 # 群组配置
 group:
-  max_member_count: 100       # 最大群组成员数
-  avatar_path: src/images/groups/  # 群组头像存储路径
+  max_member_count: 100                   # 最大群组成员数
+  avatar_path: uploads/avatars/           # 群组头像存储路径
 
-# 邮件配置 (用于管理员通知)
+# 邮件配置（用于管理员通知）
 email:
   enabled: false
   smtp_server: smtp.example.com
@@ -62,20 +95,26 @@ ui:
   animations: true            # 是否启用动画效果
   message_animations: true    # 消息动画效果
   theme: light                # 默认主题: light, dark
-  favicon: src/images/website.ico  # 网站图标路径
+  favicon: src/images/website.ico
 
 # 日志配置
 logging:
-  level: INFO                 # 日志级别: DEBUG, INFO, WARNING, ERROR, CRITICAL
-  format: '%(asctime)s - %(name)s - %(levelname)s - %(message)s'  # 日志格式
-  filename: logs/fuckchat.log  # 日志文件路径
-  max_bytes: 10485760         # 日志文件大小限制 (10MB)
+  level: INFO                                           # DEBUG, INFO, WARNING, ERROR, CRITICAL
+  format: '%(asctime)s - %(name)s - %(levelname)s - %(message)s'
+  filename: logs/fuckchat.log                           # 日志文件路径
+  max_bytes: 10485760                                   # 单个日志文件大小上限 (10MB)
+  backup_count: 5                                       # 轮转保留数量
 
-# 管理员配置
+# 管理员配置（独立管理后台 run_admin.py 使用）
+#
+# 安全说明：password 留空表示不启用基于配置文件的登录，
+# 请改用数据库管理员账号（/api/auth/admin/login）。
+# 若必须使用配置口令，请设置强口令或用 FUCKCHAT_ADMIN_PASSWORD 环境变量注入。
 admin:
   port: 5004
   host: 127.0.0.1
   username: admin
-  password: admin
+  password: ""
+  session_ttl_hours: 8
   email: admin@example.com
-  avatar: src/images/avtar.jpg  # 管理员头像路径
+  avatar: src/images/avtar.jpg
