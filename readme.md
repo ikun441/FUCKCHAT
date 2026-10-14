@@ -553,6 +553,10 @@ FUCKCHAT/
 
 欢迎贡献代码、提交问题和改进建议！
 
+## 加入社群
+<img width="1284" height="2283" alt="微信图片_20261013231908_10_72" src="https://github.com/user-attachments/assets/b9839cc5-777b-40aa-b3c6-602745783a66" />
+
+
 ## 许可证
 
 MIT License
