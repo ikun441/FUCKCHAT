@@ -61,11 +61,14 @@ async function handleLogin(event) {
         });
         
         const data = await response.json();
+        // v2 响应格式：业务数据位于 data 字段
+        const result = unwrapResponse(data);
+        const payload = result.data;
         
-        if (data.success) {
+        if (result.ok) {
             // 存储用户信息和token
-            localStorage.setItem('fuckchat_token', data.token);
-            localStorage.setItem('fuckchat_user', JSON.stringify(data.user));
+            localStorage.setItem('fuckchat_token', payload.token);
+            localStorage.setItem('fuckchat_user', JSON.stringify(payload.user));
             
             showToast('登录成功，正在跳转...', 'success');
             
@@ -79,7 +82,7 @@ async function handleLogin(event) {
             submitBtn.disabled = false;
             
             // 显示错误信息
-            showAuthError(data.message || '用户名或密码错误');
+            showAuthError(result.message || '用户名或密码错误');
         }
     } catch (error) {
         console.error('登录失败:', error);

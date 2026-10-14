@@ -164,3 +164,15 @@
 - 修复管理后台统计/用户/群组/日志返回假数据、删除用户不真删
 - 修复系统通知只写日志从不投递到用户
 - 修复 README 接口路径与实际路由不符
+
+### 前端适配（v2.0.0 补充）
+
+- `common.js` 新增 `unwrapResponse()` 与 `apiFetch()`，统一解包 v2 响应
+- `login.js` / `register.js` / `chat.js` / `admin.js` / `profile.js` /
+  `admin_login.js` 全部改为从 `data.*` 取值
+- 补齐 admin.js 中缺失的 `renderGroupsTable()` 与 `deleteGroup()`
+- 修正后端字段命名与前端期望不一致（stats 下划线键名、created_at、
+  reports/messages/backups 数组键）
+- `paginated()` 补充 `data` 载荷，修复分页接口前端取不到数据的问题
+- 新增 `scripts/audit_contract.py`（45 项）前后端字段契约审计
+- 新增 `scripts/test_integration.py`（61 项）前后端连通性测试

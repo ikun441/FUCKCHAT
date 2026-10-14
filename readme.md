@@ -221,15 +221,34 @@ app/
 - 修复：把查重移入写事务，并使用 `BEGIN IMMEDIATE` 立即获取写锁，使「查重 + 抢占份额」整体互斥。
 - 修复后回归：3 个用户 × 6 并发 = 18 请求，**恰好 3 次成功、15 次正确拒绝**，每人各得 1 份。
 
-### 六、测试与验证
+### 六、前端适配
+
+后端统一响应格式后，前端 JS 需相应调整取值路径。本次已完成全部适配：
+
+| 文件 | 改动 |
+|---|---|
+| `common.js` | 新增 `unwrapResponse()` 与 `apiFetch()`，统一解包 `data` 字段 |
+| `login.js` | 登录成功后从 `data.token` / `data.user` 取值 |
+| `register.js` | 注册与用户名查重改用解包结果 |
+| `chat.js` | 12 处接口调用改为从 `data.*` 取值（用户/联系人/群组/记录/上传等） |
+| `admin.js` | 20 处调用改为解包取值；补齐缺失的 `renderGroupsTable()` 与 `deleteGroup()` |
+| `profile.js` | 资料更新、改密、注销、头像上传改用解包结果 |
+| `admin_login.js` | 兼容独立后台（扁平结构）与主服务（`data` 结构）两种响应 |
+
+同时修复了后端字段命名与前端期望不一致的问题（`stats.user_count`、
+`created_at`、`data.reports`、`data.messages`、`data.backups` 等）。
+
+### 七、测试与验证
 
 新增 `scripts/test_api.py` 回归测试脚本，覆盖重构前诊断出的全部问题：
 
 ```bash
-python scripts/test_api.py --url http://127.0.0.1:5100
+python scripts/test_api.py --url http://127.0.0.1:5100          # 接口回归（93 项）
+python scripts/audit_contract.py --url http://127.0.0.1:5100    # 前后端字段契约审计（45 项）
+python scripts/test_integration.py --url http://127.0.0.1:5100  # 前后端连通性（61 项）
 ```
 
-**测试结果：93 项全部通过**
+**测试结果：三个套件共 199 项全部通过**
 
 覆盖范围：
 1. 健康检查与页面路由（含原 500 的 `/admin` 修复验证）
@@ -242,11 +261,18 @@ python scripts/test_api.py --url http://127.0.0.1:5100
 8. 响应格式一致性（含 404/401 返回 JSON 而非 HTML）
 9. 前端兼容层（v1 扁平字段与 v2 `data` 嵌套的双向可用性、保留键不被覆盖）
 
+另有两个专项脚本：
+
+- `scripts/audit_contract.py`（45 项）：把前端 JS 实际消费的字段与后端真实返回逐一比对，
+  用于发现「后端有数据但字段名对不上」的静默故障。
+- `scripts/test_integration.py`（61 项）：复刻前端 `unwrapResponse` 解包逻辑，
+  按 `login.js` / `chat.js` / `admin.js` 的真实取值路径验证连通性。
+
 另有独立的 WebSocket 与并发领取验证：
 - 断线后在线状态被正确清理（原缺陷为永久停留在线）
 - 红包并发领取无重复、无超发
 
-### 七、配置变更
+### 八、配置变更
 
 新增配置项（均有默认值，旧配置可直接使用）：
 
@@ -288,25 +314,24 @@ admin:
 export FUCKCHAT_SECRET_KEY="$(python3 -c 'import secrets;print(secrets.token_urlsafe(48))')"
 ```
 
-### 八、破坏性变更
+### 九、破坏性变更
 
 以下变更影响既有部署，升级前请留意：
 
 1. **响应格式统一**：成功响应数据规整进 `data`，并统一带 `success`/`message`，
    例如 `{"success":true,"message":"登录成功","data":{"token":"...","user":{...}}}`。
 
-   > **兼容说明**：为免改动既有前端，响应默认同时**在顶层展开一份 `data` 的字段**，
-   > 即 `{"success":true,"data":{...},"token":"...","user":{...}}`。
-   > 因此 v1 前端（直接读 `data.token` / `data.users`）无需任何改动即可继续工作，
-   > 新代码也可使用规范的 `data.*` 路径。
-   > 若希望获得纯 v2 格式，把 `config.yaml` 中的
-   > `server.legacy_response_aliases` 设为 `false` 即可。
+   > **前端已完成适配**：`templates/js/*.js` 已全部改为通过 `data.*` 取值，
+   > 由 `common.js` 提供的 `unwrapResponse()` / `apiFetch()` 统一解包。
+   > 响应顶层仍保留一份展开字段作为过渡兼容，
+   > 可通过 `server.legacy_response_aliases: false` 关闭。
+
 2. **管理后台独立服务**：`run_admin.py` 的接口改为真实数据，不再返回模拟结构。
 3. **`route/` 目录移除**：如需引用路由，请改从 `app.routes` 导入。
 4. **数据库迁移**：升级后需运行 `python scripts/migrate_db.py`（会新增 `user_logs.detail`、`kunbi_transactions.packet_count` 等字段与索引）。
 5. **加密方式**：新密码使用 bcrypt rounds=12（原为默认 12 轮，兼容）；已有账号密码无需重置。
 
-### 九、升级步骤
+### 十、升级步骤
 
 ```bash
 git pull
@@ -318,10 +343,11 @@ python run.py --port 5100               # 启动验证
 python scripts/test_api.py --url http://127.0.0.1:5100   # 回归测试
 ```
 
-### 十、已知待办
+### 十一、已知待办
 
-- 前端 JS 目前依赖响应兼容层工作；彻底迁移到 `data.*` 取值后，
-  可将 `server.legacy_response_aliases` 置为 `false` 并移除兼容代码。
+- 前端已迁移至 `data.*` 取值，响应顶层的兼容别名目前仅为过渡保留；
+  确认无外部调用方依赖后，可将 `server.legacy_response_aliases` 置为 `false`
+  并移除 `responses.py` 中的兼容分支。
 - 限速器为进程内存实现，多进程/多机部署需要替换为 Redis。
 - 管理后台的数据库备份/恢复尚未提供 Web 端恢复入口。
 - 尚未引入自动化单元测试框架（当前为端到端脚本验证）。

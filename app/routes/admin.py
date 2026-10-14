@@ -53,23 +53,41 @@ def _log_admin(action, detail):
 @admin_bp.route("/stats", methods=["GET"])
 @admin_required
 def get_stats():
-    """系统统计信息。"""
+    """
+    系统统计信息。
+
+    为兼容 admin.js 的读取方式（data.stats.user_count 等下划线命名），
+    同时以 camelCase 与 snake_case 两套键名返回，并额外包一层 stats。
+    """
+    total_users = db.query_scalar("SELECT COUNT(*) FROM users", (), 0)
+    online_users = db.query_scalar(
+        "SELECT COUNT(*) FROM users WHERE status = 'online'", (), 0
+    )
+    total_groups = db.query_scalar("SELECT COUNT(*) FROM groups", (), 0)
+    total_messages = db.query_scalar("SELECT COUNT(*) FROM messages", (), 0)
+    today_messages = db.query_scalar(
+        "SELECT COUNT(*) FROM messages WHERE date(created_at) = date('now')", (), 0
+    )
+    total_kunbi = db.query_scalar("SELECT COALESCE(SUM(kunbi), 0) FROM users", (), 0)
+    admin_count = db.query_scalar("SELECT COUNT(*) FROM users WHERE is_admin = 1", (), 0)
+
     stats = {
-        "totalUsers": db.query_scalar("SELECT COUNT(*) FROM users", (), 0),
-        "onlineUsers": db.query_scalar(
-            "SELECT COUNT(*) FROM users WHERE status = 'online'", (), 0
-        ),
-        "totalGroups": db.query_scalar("SELECT COUNT(*) FROM groups", (), 0),
-        "totalMessages": db.query_scalar("SELECT COUNT(*) FROM messages", (), 0),
-        "todayMessages": db.query_scalar(
-            "SELECT COUNT(*) FROM messages WHERE date(created_at) = date('now')", (), 0
-        ),
-        "totalKunbi": db.query_scalar(
-            "SELECT COALESCE(SUM(kunbi), 0) FROM users", (), 0
-        ),
-        "adminCount": db.query_scalar(
-            "SELECT COUNT(*) FROM users WHERE is_admin = 1", (), 0
-        ),
+        # camelCase（v2 风格）
+        "totalUsers": total_users,
+        "onlineUsers": online_users,
+        "totalGroups": total_groups,
+        "totalMessages": total_messages,
+        "todayMessages": today_messages,
+        "totalKunbi": total_kunbi,
+        "adminCount": admin_count,
+        # snake_case（admin.js 读取）
+        "user_count": total_users,
+        "online_user_count": online_users,
+        "group_count": total_groups,
+        "message_count": total_messages,
+        "today_message_count": today_messages,
+        "kunbi_count": total_kunbi,
+        "admin_count": admin_count,
     }
 
     # 近 7 天消息趋势，供仪表盘绘图
@@ -85,6 +103,8 @@ def get_stats():
     stats["messageTrend"] = [
         {"date": row["day"], "count": row["count"]} for row in trend
     ]
+    # admin.js 读取 data.stats.*
+    stats["stats"] = dict(stats)
     return success(stats)
 
 
@@ -132,6 +152,10 @@ def get_all_users():
             "status": row["status"],
             "createdAt": row["created_at"],
             "lastLoginAt": row["last_login_at"],
+            # 下划线别名（admin.js 读取 user.created_at / last_login_at / is_admin）
+            "created_at": row["created_at"],
+            "last_login_at": row["last_login_at"],
+            "is_admin": bool(row["is_admin"]),
         }
         for row in rows
     ]
@@ -243,6 +267,8 @@ def get_all_groups():
             "creatorNickname": row["creator_nickname"],
             "memberCount": row["member_count"],
             "createdAt": row["created_at"],
+            "created_at": row["created_at"],
+            "member_count": row["member_count"],
         }
         for row in rows
     ]
@@ -313,15 +339,28 @@ def get_private_chats():
         user_b = db.query_one(
             "SELECT id, nickname, username FROM users WHERE id = ?", (row["user_b"],)
         )
+        name_a = (user_a or {}).get("nickname") or "已注销用户"
+        name_b = (user_b or {}).get("nickname") or "已注销用户"
         items.append(
             {
                 "userA": user_a or {"id": row["user_a"], "nickname": "已注销用户"},
                 "userB": user_b or {"id": row["user_b"], "nickname": "已注销用户"},
                 "messageCount": row["message_count"],
                 "lastMessageAt": row["last_message_at"],
+                # admin.js 的私聊表格读取以下字段
+                "sender_name": name_a,
+                "receiver_name": name_b,
+                "senderName": name_a,
+                "receiverName": name_b,
+                "message_count": row["message_count"],
+                "created_at": row["last_message_at"],
+                "message_type": "private",
             }
         )
-    return paginated(items, total, page, page_size, message="获取成功", privateChats=items)
+    return paginated(
+        items, total, page, page_size,
+        message="获取成功", privateChats=items, messages=items,
+    )
 
 
 @admin_bp.route("/group-chats", methods=["GET"])
@@ -354,10 +393,20 @@ def get_group_chats():
             "name": row["name"] or "已解散群组",
             "messageCount": row["message_count"],
             "lastMessageAt": row["last_message_at"],
+            # admin.js 的群聊表格读取以下字段
+            "group_name": row["name"] or "已解散群组",
+            "sender_name": row["name"] or "已解散群组",
+            "receiver_name": "",
+            "message_count": row["message_count"],
+            "created_at": row["last_message_at"],
+            "message_type": "group",
         }
         for row in rows
     ]
-    return paginated(items, total, page, page_size, message="获取成功", groupChats=items)
+    return paginated(
+        items, total, page, page_size,
+        message="获取成功", groupChats=items, messages=items,
+    )
 
 
 @admin_bp.route("/reported-messages", methods=["GET"])
@@ -392,10 +441,19 @@ def get_reported_messages():
             "reporterNickname": row["nickname"],
             "reporterUsername": row["username"],
             "createdAt": row["created_at"],
+            # admin.js 举报表格读取的字段名
+            "reporter_name": row["nickname"] or row["username"] or "未知用户",
+            "reason": "用户举报",
+            "message_content": "",
+            "status": "pending",
+            "created_at": row["created_at"],
         }
         for row in rows
     ]
-    return paginated(items, total, page, page_size, message="获取成功", reportedMessages=items)
+    return paginated(
+        items, total, page, page_size,
+        message="获取成功", reportedMessages=items, reports=items,
+    )
 
 
 # ---------------------------------------------------------------------------
@@ -491,6 +549,9 @@ def list_notifications():
             "content": row["content"],
             "isRead": bool(row["is_read"]),
             "createdAt": row["created_at"],
+            # admin.js 读取的字段名
+            "created_at": row["created_at"],
+            "target_type": row["type"],
         }
         for row in rows
     ]
@@ -501,20 +562,31 @@ def list_notifications():
 @admin_required
 def notification_stats():
     """通知统计（补齐缺失接口）。"""
+    total = db.query_scalar("SELECT COUNT(*) FROM notifications", (), 0)
+    unread = db.query_scalar(
+        "SELECT COUNT(*) FROM notifications WHERE is_read = 0", (), 0
+    )
+    read = db.query_scalar(
+        "SELECT COUNT(*) FROM notifications WHERE is_read = 1", (), 0
+    )
+    today = db.query_scalar(
+        "SELECT COUNT(*) FROM notifications WHERE date(created_at) = date('now')",
+        (),
+        0,
+    )
     return success(
         {
-            "total": db.query_scalar("SELECT COUNT(*) FROM notifications", (), 0),
-            "unread": db.query_scalar(
-                "SELECT COUNT(*) FROM notifications WHERE is_read = 0", (), 0
-            ),
-            "read": db.query_scalar(
-                "SELECT COUNT(*) FROM notifications WHERE is_read = 1", (), 0
-            ),
-            "today": db.query_scalar(
-                "SELECT COUNT(*) FROM notifications WHERE date(created_at) = date('now')",
-                (),
-                0,
-            ),
+            "total": total,
+            "unread": unread,
+            "read": read,
+            "today": today,
+            # admin.js 读取的字段名
+            "total_count": total,
+            "read_count": read,
+            "unread_count": unread,
+            "today_count": today,
+            "labels": ["已读", "未读"],
+            "counts": [read, unread],
         }
     )
 
@@ -558,6 +630,7 @@ def get_system_logs():
             "userId": row["user_id"],
             "username": row["username"],
             "createdAt": row["created_at"],
+            "created_at": row["created_at"],
         }
         for row in rows
     ]
@@ -575,13 +648,20 @@ def database_info():
     """数据库基本信息。"""
     path = db.get_db_path()
     size = os.path.getsize(path) if os.path.exists(path) else 0
+    tables = _list_tables()
+    table_count = len(tables)
     return success(
         {
             "path": path,
             "size": size,
             "sizeHuman": _human_size(size),
             "journalMode": db.query_scalar("PRAGMA journal_mode", (), "unknown"),
-            "tableCount": len(_list_tables()),
+            "tableCount": table_count,
+            # admin.js 读取的字段名
+            "table_count": table_count,
+            "total_count": sum(t.get("row_count") or 0 for t in tables),
+            "last_backup": _latest_backup_time(),
+            "status": "ok",
         }
     )
 
@@ -617,12 +697,17 @@ def database_backups():
     items = []
     if backup_dir.exists():
         for path in sorted(backup_dir.glob("*.db"), reverse=True):
+            stat = path.stat()
             items.append(
                 {
+                    "id": path.stem,
                     "name": path.name,
-                    "size": path.stat().st_size,
-                    "sizeHuman": _human_size(path.stat().st_size),
-                    "createdAt": datetime.fromtimestamp(path.stat().st_mtime).isoformat(),
+                    "filename": path.name,
+                    "type": "manual",
+                    "size": stat.st_size,
+                    "sizeHuman": _human_size(stat.st_size),
+                    "createdAt": datetime.fromtimestamp(stat.st_mtime).isoformat(),
+                    "created_at": datetime.fromtimestamp(stat.st_mtime).isoformat(),
                 }
             )
     return success({"backups": items})
@@ -723,8 +808,29 @@ def _list_tables():
             count = db.query_scalar(f'SELECT COUNT(*) FROM "{name}"', (), 0)
         except sqlite3.Error:
             count = -1
-        tables.append({"name": name, "rows": count})
+        tables.append(
+            {
+                "name": name,
+                "rows": count,
+                # admin.js 表清单读取的字段名
+                "row_count": count,
+                "size": 0,
+                "last_updated": None,
+            }
+        )
     return tables
+
+
+def _latest_backup_time():
+    """返回最近一次备份的时间，无备份则返回 None。"""
+    backup_dir = current_app.config["FUCKCHAT_CONFIG"].base_dir / "backups"
+    if not backup_dir.exists():
+        return None
+    files = sorted(backup_dir.glob("*.db"))
+    if not files:
+        return None
+    latest = max(files, key=lambda p: p.stat().st_mtime)
+    return datetime.fromtimestamp(latest.stat().st_mtime).isoformat()
 
 
 def _human_size(size):

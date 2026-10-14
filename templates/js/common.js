@@ -3,6 +3,84 @@
  * 包含整个应用中共享的函数和工具方法
  */
 
+// ============================================================================
+// API 响应处理（v2.0.0 前端适配）
+// ============================================================================
+//
+// 后端 v2 统一响应格式为：
+//     { success, message, data: {...}, ... }
+// 业务数据位于 data 字段中。前端统一通过下面的封装取值，
+// 不再直接依赖响应顶层的字段。
+
+/**
+ * 统一解包后端响应。
+ * @param {Object} raw - response.json() 的原始结果
+ * @returns {{ok: boolean, data: Object, message: string, code: string, raw: Object}}
+ */
+function unwrapResponse(raw) {
+    const body = (raw && typeof raw === 'object') ? raw : {};
+    const data = (body.data && typeof body.data === 'object') ? body.data : {};
+    return {
+        ok: body.success === true,
+        data: data,
+        message: body.message || '',
+        code: body.code || '',
+        raw: body
+    };
+}
+
+/**
+ * 带鉴权的 fetch 封装，自动解包响应。
+ * @param {string} url
+ * @param {Object} options - fetch 选项，可含 { method, body, headers }
+ * @returns {Promise<{ok, data, message, code, status, raw}>}
+ */
+async function apiFetch(url, options = {}) {
+    const opts = Object.assign({ method: 'GET' }, options);
+    opts.headers = Object.assign({}, opts.headers || {});
+
+    const token = localStorage.getItem('fuckchat_token');
+    if (token) {
+        opts.headers['Authorization'] = `Bearer ${token}`;
+    }
+
+    // 对象类型的 body 自动序列化为 JSON
+    if (opts.body && typeof opts.body === 'object' && !(opts.body instanceof FormData)) {
+        opts.headers['Content-Type'] = opts.headers['Content-Type'] || 'application/json';
+        opts.body = JSON.stringify(opts.body);
+    }
+
+    try {
+        const response = await fetch(url, opts);
+        let raw = null;
+        try {
+            raw = await response.json();
+        } catch (e) {
+            raw = {};
+        }
+
+        const result = unwrapResponse(raw);
+        result.status = response.status;
+
+        // HTTP 错误但响应体无 message 时，用状态码补充提示
+        if (!response.ok && !result.message) {
+            result.ok = false;
+            result.message = `请求失败（HTTP ${response.status}）`;
+        }
+        return result;
+    } catch (error) {
+        console.error(`请求 ${url} 失败:`, error);
+        return {
+            ok: false,
+            data: {},
+            message: '网络异常，请检查连接',
+            code: 'NETWORK_ERROR',
+            status: 0,
+            raw: {}
+        };
+    }
+}
+
 // 检查用户是否已登录
 function isLoggedIn() {
     return localStorage.getItem('fuckchat_token') !== null;

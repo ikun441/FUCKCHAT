@@ -538,16 +538,17 @@ async function fetchOnlineUsers() {
         }
         
         const data = await response.json();
+        const result = unwrapResponse(data);
         
-        if (data.success) {
-            onlineUsers = data.users || [];
+        if (result.ok) {
+            onlineUsers = result.data.users || [];
             
             // 同步用户状态
             syncUserStatuses();
             
             renderOnlineUsers();
         } else {
-            console.error('获取在线用户列表失败:', data.message);
+            console.error('获取在线用户列表失败:', result.message);
             // 失败时使用模拟数据（仅开发阶段）
             useMockOnlineUsers();
         }
@@ -609,16 +610,17 @@ async function fetchRecentContacts() {
         }
         
         const data = await response.json();
+        const result = unwrapResponse(data);
         
-        if (data.success) {
-            recentContacts = data.contacts || [];
+        if (result.ok) {
+            recentContacts = result.data.contacts || [];
             
             // 同步用户状态
             syncUserStatuses();
             
             renderRecentContacts();
         } else {
-            console.error('获取最近联系人列表失败:', data.message);
+            console.error('获取最近联系人列表失败:', result.message);
             // 失败时使用模拟数据（仅开发阶段）
             useMockRecentContacts();
         }
@@ -674,12 +676,13 @@ async function fetchGroups() {
         }
         
         const data = await response.json();
+        const result = unwrapResponse(data);
         
-        if (data.success) {
-            groups = data.groups || [];
+        if (result.ok) {
+            groups = result.data.groups || [];
             renderGroups();
         } else {
-            console.error('获取群组列表失败:', data.message);
+            console.error('获取群组列表失败:', result.message);
             // 失败时使用模拟数据（仅开发阶段）
             useMockGroups();
         }
@@ -1431,11 +1434,13 @@ async function loadChatHistory(chatType, userId, targetId) {
         }
         
         const data = await response.json();
+        const result = unwrapResponse(data);
+        const msgList = result.data.messages;
         
-        if (data.success && data.messages) {
+        if (result.ok && msgList) {
             // 更新内存中的消息缓存
-            messages[chatId] = data.messages;
-            return data.messages;
+            messages[chatId] = msgList;
+            return msgList;
         } else {
             // API返回成功但没有消息，尝试从本地加载
             return loadChatHistoryFromFile(chatId);
@@ -2642,14 +2647,16 @@ async function confirmUserAvatarUpload() {
         }
         
         const data = await response.json();
+        const result = unwrapResponse(data);
+        const avatarUrl = result.data.avatar || result.data.avatar_url;
         
-        if (data.success) {
+        if (result.ok) {
             // 更新用户头像
-            currentUser.avatar = data.avatar_url;
+            currentUser.avatar = avatarUrl;
             
             // 更新本地存储的用户信息
             const userInfo = JSON.parse(localStorage.getItem('fuckchat_user') || '{}');
-            userInfo.avatar = data.avatar_url;
+            userInfo.avatar = avatarUrl;
             localStorage.setItem('fuckchat_user', JSON.stringify(userInfo));
             
             // 更新界面显示
@@ -2995,11 +3002,13 @@ async function uploadFile(file, path = '/src/images/', filename = null) {
         }
         
         const data = await response.json();
+        const result = unwrapResponse(data);
         
-        if (data.success) {
-            return data.file_url || `${path}${targetFilename}`;
+        if (result.ok) {
+            // 后端返回 url / filename
+            return result.data.url || result.data.file_url || `${path}${targetFilename}`;
         } else {
-            throw new Error(data.message || '文件上传失败');
+            throw new Error(result.message || '文件上传失败');
         }
     } catch (error) {
         console.error('上传文件失败:', error);
@@ -3073,9 +3082,10 @@ async function loadMembersForSelection() {
         }
         
         const data = await response.json();
+        const result = unwrapResponse(data);
         
-        if (data.success) {
-            const users = data.users || [];
+        if (result.ok) {
+            const users = result.data.users || [];
             
             if (users.length === 0) {
                 memberSelectionDiv.innerHTML = '<div class="no-members">没有可选成员</div>';
@@ -3216,8 +3226,9 @@ async function createGroup() {
         }
         
         const data = await response.json();
+        const result = unwrapResponse(data);
         
-        if (data.success) {
+        if (result.ok) {
             // 关闭模态框
             document.getElementById('create-group-modal').classList.remove('active');
             
@@ -3515,15 +3526,16 @@ async function addFriend(userId) {
         }
         
         const data = await response.json();
+        const result = unwrapResponse(data);
         
-        if (data.success) {
+        if (result.ok) {
             showToast('好友请求已发送', 'success');
             // 更新按钮状态
             const addFriendBtn = document.getElementById('add-friend-btn');
             addFriendBtn.textContent = '请求已发送';
             addFriendBtn.disabled = true;
         } else {
-            showToast(data.message || '发送好友请求失败', 'error');
+            showToast(result.message || '发送好友请求失败', 'error');
         }
     } catch (error) {
         console.error('发送好友请求失败:', error);
@@ -3641,7 +3653,7 @@ function clearChatHistory() {
         })
         .then(response => response.json())
         .then(data => {
-            if (data.success) {
+            if (unwrapResponse(data).ok) {
                 // 清空本地聊天容器
                 const chatContainer = document.querySelector('.messages-container');
                 chatContainer.innerHTML = '';
@@ -4049,7 +4061,7 @@ function initMessageContextMenu() {
             })
             .then(response => response.json())
             .then(data => {
-                if (data.success) {
+                if (unwrapResponse(data).ok) {
                     // 本地UI更新
                     updateRecalledMessageUI(messageEl);
                     

@@ -103,9 +103,10 @@ def paginated(items, total, page, page_size, message="获取成功", **extra):
             但保留 `items` 的同时，把调用方通过 **extra 传入的键
             （如 users/groups/logs）展开到顶层供旧前端读取。
     """
-    payload = {
-        "success": True,
-        "message": message,
+    # data 载荷：包含列表本身与分页信息，
+    # 同时把调用方通过 **extra 传入的键（如 users=items、logs=items）一并放入，
+    # 保证前端既能用 data.items 也能用 data.users / data.logs 取值。
+    data_payload = {
         "items": items,
         "pagination": {
             "page": page,
@@ -114,13 +115,24 @@ def paginated(items, total, page, page_size, message="获取成功", **extra):
             "pages": (total + page_size - 1) // page_size if page_size else 0,
         },
     }
+    for key, value in extra.items():
+        if key not in _RESERVED_KEYS:
+            data_payload[key] = value
+
+    payload = {
+        "success": True,
+        "message": message,
+        "data": data_payload,
+        "items": items,
+        "pagination": data_payload["pagination"],
+    }
     payload.update(extra)
 
-    # 兼容层：旧前端调用处常写 data.users / data.logs 等，
-    # 由调用方在 extra 中显式提供（例如 users=items）。
-    if _legacy_aliases_enabled():
-        for key, value in extra.items():
-            if key not in _RESERVED_KEYS and key not in payload:
-                payload[key] = value
+    # 兼容层：仅保留顶层展开（供尚未迁移的旧调用点）；
+    # 前端已统一改用 data.*，顶层展开可随 legacy_response_aliases 关闭。
+    if not _legacy_aliases_enabled():
+        for key in list(payload.keys()):
+            if key in payload and key not in _RESERVED_KEYS and key in extra:
+                payload.pop(key, None)
 
     return jsonify(payload), 200
